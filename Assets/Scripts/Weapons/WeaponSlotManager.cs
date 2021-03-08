@@ -49,7 +49,7 @@ namespace SoulsLikeTutorial
                 quickSlotsUI.UpdateWeaponQuickSlotsUI(true, weaponItem);
 
                 #region Handle Left Weapon Idle Animations
-                if (weaponItem != null)
+                if (weaponItem != null && weaponItem.Left_Hand_Idle != null)
                 {
                     animator.CrossFade(weaponItem.Left_Hand_Idle, 0.2f);
                 }
@@ -66,7 +66,7 @@ namespace SoulsLikeTutorial
                 quickSlotsUI.UpdateWeaponQuickSlotsUI(false, weaponItem);
 
                 #region Handle Right Weapon Idle Animations
-                if (weaponItem != null)
+                if (weaponItem != null && weaponItem.Right_Hand_Idle != null)
                 {
                     animator.CrossFade(weaponItem.Right_Hand_Idle, 0.2f);
                 }

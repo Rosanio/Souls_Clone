@@ -465,6 +465,147 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Menu Navigation"",
+            ""id"": ""aa2c0d35-8b70-4fae-af05-08a948e566ad"",
+            ""actions"": [
+                {
+                    ""name"": ""Confirm"",
+                    ""type"": ""Button"",
+                    ""id"": ""fd98a9af-e910-4332-9944-c8d1d7cb1ca4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Navigate Left"",
+                    ""type"": ""Button"",
+                    ""id"": ""a8d92885-f90b-4a44-85b7-c5eb62c2ec94"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Navigate Right"",
+                    ""type"": ""Button"",
+                    ""id"": ""36c6bea7-18af-492b-8ad2-5044c250f58c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Navigate Up"",
+                    ""type"": ""Button"",
+                    ""id"": ""50c2a53c-f891-485d-811b-f5708d79fad1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Navigate Down"",
+                    ""type"": ""Button"",
+                    ""id"": ""d740d55f-e950-4c96-86fe-f2fa7c030611"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Back"",
+                    ""type"": ""Button"",
+                    ""id"": ""abefdb1d-49b6-4959-9407-c0b5ce2e1eb3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Menu Option 1"",
+                    ""type"": ""Button"",
+                    ""id"": ""b4841cd4-fdf7-4001-9a6d-9315931e0f84"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""79067724-8efc-4b49-a3c9-fad7a6db8c3c"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Confirm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""87009568-7d87-48d4-bb60-d6b7bbb77bdc"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate Left"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""304a9444-fcc9-41be-9bb5-36ea524853d9"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate Right"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""329e17fa-8b29-44c8-81c5-2c60298ad2b8"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate Up"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""10e36945-f227-421e-a1db-de4ff42c7ee6"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate Down"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d95c8fb5-2c35-4e94-bb1c-b3cc17aecf38"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Back"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""79963500-4317-4193-8289-b568088bda84"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Menu Option 1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -490,6 +631,15 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_InventoryManagement_DPadDown = m_InventoryManagement.FindAction("D-Pad Down", throwIfNotFound: true);
         m_InventoryManagement_DPadLeft = m_InventoryManagement.FindAction("D-Pad Left", throwIfNotFound: true);
         m_InventoryManagement_DPadRight = m_InventoryManagement.FindAction("D-Pad Right", throwIfNotFound: true);
+        // Menu Navigation
+        m_MenuNavigation = asset.FindActionMap("Menu Navigation", throwIfNotFound: true);
+        m_MenuNavigation_Confirm = m_MenuNavigation.FindAction("Confirm", throwIfNotFound: true);
+        m_MenuNavigation_NavigateLeft = m_MenuNavigation.FindAction("Navigate Left", throwIfNotFound: true);
+        m_MenuNavigation_NavigateRight = m_MenuNavigation.FindAction("Navigate Right", throwIfNotFound: true);
+        m_MenuNavigation_NavigateUp = m_MenuNavigation.FindAction("Navigate Up", throwIfNotFound: true);
+        m_MenuNavigation_NavigateDown = m_MenuNavigation.FindAction("Navigate Down", throwIfNotFound: true);
+        m_MenuNavigation_Back = m_MenuNavigation.FindAction("Back", throwIfNotFound: true);
+        m_MenuNavigation_MenuOption1 = m_MenuNavigation.FindAction("Menu Option 1", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -730,6 +880,87 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         }
     }
     public InventoryManagementActions @InventoryManagement => new InventoryManagementActions(this);
+
+    // Menu Navigation
+    private readonly InputActionMap m_MenuNavigation;
+    private IMenuNavigationActions m_MenuNavigationActionsCallbackInterface;
+    private readonly InputAction m_MenuNavigation_Confirm;
+    private readonly InputAction m_MenuNavigation_NavigateLeft;
+    private readonly InputAction m_MenuNavigation_NavigateRight;
+    private readonly InputAction m_MenuNavigation_NavigateUp;
+    private readonly InputAction m_MenuNavigation_NavigateDown;
+    private readonly InputAction m_MenuNavigation_Back;
+    private readonly InputAction m_MenuNavigation_MenuOption1;
+    public struct MenuNavigationActions
+    {
+        private @PlayerControls m_Wrapper;
+        public MenuNavigationActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Confirm => m_Wrapper.m_MenuNavigation_Confirm;
+        public InputAction @NavigateLeft => m_Wrapper.m_MenuNavigation_NavigateLeft;
+        public InputAction @NavigateRight => m_Wrapper.m_MenuNavigation_NavigateRight;
+        public InputAction @NavigateUp => m_Wrapper.m_MenuNavigation_NavigateUp;
+        public InputAction @NavigateDown => m_Wrapper.m_MenuNavigation_NavigateDown;
+        public InputAction @Back => m_Wrapper.m_MenuNavigation_Back;
+        public InputAction @MenuOption1 => m_Wrapper.m_MenuNavigation_MenuOption1;
+        public InputActionMap Get() { return m_Wrapper.m_MenuNavigation; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MenuNavigationActions set) { return set.Get(); }
+        public void SetCallbacks(IMenuNavigationActions instance)
+        {
+            if (m_Wrapper.m_MenuNavigationActionsCallbackInterface != null)
+            {
+                @Confirm.started -= m_Wrapper.m_MenuNavigationActionsCallbackInterface.OnConfirm;
+                @Confirm.performed -= m_Wrapper.m_MenuNavigationActionsCallbackInterface.OnConfirm;
+                @Confirm.canceled -= m_Wrapper.m_MenuNavigationActionsCallbackInterface.OnConfirm;
+                @NavigateLeft.started -= m_Wrapper.m_MenuNavigationActionsCallbackInterface.OnNavigateLeft;
+                @NavigateLeft.performed -= m_Wrapper.m_MenuNavigationActionsCallbackInterface.OnNavigateLeft;
+                @NavigateLeft.canceled -= m_Wrapper.m_MenuNavigationActionsCallbackInterface.OnNavigateLeft;
+                @NavigateRight.started -= m_Wrapper.m_MenuNavigationActionsCallbackInterface.OnNavigateRight;
+                @NavigateRight.performed -= m_Wrapper.m_MenuNavigationActionsCallbackInterface.OnNavigateRight;
+                @NavigateRight.canceled -= m_Wrapper.m_MenuNavigationActionsCallbackInterface.OnNavigateRight;
+                @NavigateUp.started -= m_Wrapper.m_MenuNavigationActionsCallbackInterface.OnNavigateUp;
+                @NavigateUp.performed -= m_Wrapper.m_MenuNavigationActionsCallbackInterface.OnNavigateUp;
+                @NavigateUp.canceled -= m_Wrapper.m_MenuNavigationActionsCallbackInterface.OnNavigateUp;
+                @NavigateDown.started -= m_Wrapper.m_MenuNavigationActionsCallbackInterface.OnNavigateDown;
+                @NavigateDown.performed -= m_Wrapper.m_MenuNavigationActionsCallbackInterface.OnNavigateDown;
+                @NavigateDown.canceled -= m_Wrapper.m_MenuNavigationActionsCallbackInterface.OnNavigateDown;
+                @Back.started -= m_Wrapper.m_MenuNavigationActionsCallbackInterface.OnBack;
+                @Back.performed -= m_Wrapper.m_MenuNavigationActionsCallbackInterface.OnBack;
+                @Back.canceled -= m_Wrapper.m_MenuNavigationActionsCallbackInterface.OnBack;
+                @MenuOption1.started -= m_Wrapper.m_MenuNavigationActionsCallbackInterface.OnMenuOption1;
+                @MenuOption1.performed -= m_Wrapper.m_MenuNavigationActionsCallbackInterface.OnMenuOption1;
+                @MenuOption1.canceled -= m_Wrapper.m_MenuNavigationActionsCallbackInterface.OnMenuOption1;
+            }
+            m_Wrapper.m_MenuNavigationActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Confirm.started += instance.OnConfirm;
+                @Confirm.performed += instance.OnConfirm;
+                @Confirm.canceled += instance.OnConfirm;
+                @NavigateLeft.started += instance.OnNavigateLeft;
+                @NavigateLeft.performed += instance.OnNavigateLeft;
+                @NavigateLeft.canceled += instance.OnNavigateLeft;
+                @NavigateRight.started += instance.OnNavigateRight;
+                @NavigateRight.performed += instance.OnNavigateRight;
+                @NavigateRight.canceled += instance.OnNavigateRight;
+                @NavigateUp.started += instance.OnNavigateUp;
+                @NavigateUp.performed += instance.OnNavigateUp;
+                @NavigateUp.canceled += instance.OnNavigateUp;
+                @NavigateDown.started += instance.OnNavigateDown;
+                @NavigateDown.performed += instance.OnNavigateDown;
+                @NavigateDown.canceled += instance.OnNavigateDown;
+                @Back.started += instance.OnBack;
+                @Back.performed += instance.OnBack;
+                @Back.canceled += instance.OnBack;
+                @MenuOption1.started += instance.OnMenuOption1;
+                @MenuOption1.performed += instance.OnMenuOption1;
+                @MenuOption1.canceled += instance.OnMenuOption1;
+            }
+        }
+    }
+    public MenuNavigationActions @MenuNavigation => new MenuNavigationActions(this);
     public interface IPlayerMovementActions
     {
         void OnMovement(InputAction.CallbackContext context);
@@ -753,5 +984,15 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnDPadDown(InputAction.CallbackContext context);
         void OnDPadLeft(InputAction.CallbackContext context);
         void OnDPadRight(InputAction.CallbackContext context);
+    }
+    public interface IMenuNavigationActions
+    {
+        void OnConfirm(InputAction.CallbackContext context);
+        void OnNavigateLeft(InputAction.CallbackContext context);
+        void OnNavigateRight(InputAction.CallbackContext context);
+        void OnNavigateUp(InputAction.CallbackContext context);
+        void OnNavigateDown(InputAction.CallbackContext context);
+        void OnBack(InputAction.CallbackContext context);
+        void OnMenuOption1(InputAction.CallbackContext context);
     }
 }

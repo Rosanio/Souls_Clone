@@ -452,6 +452,147 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Menu Navigation",
+            "id": "aa2c0d35-8b70-4fae-af05-08a948e566ad",
+            "actions": [
+                {
+                    "name": "Confirm",
+                    "type": "Button",
+                    "id": "fd98a9af-e910-4332-9944-c8d1d7cb1ca4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Navigate Left",
+                    "type": "Button",
+                    "id": "a8d92885-f90b-4a44-85b7-c5eb62c2ec94",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Navigate Right",
+                    "type": "Button",
+                    "id": "36c6bea7-18af-492b-8ad2-5044c250f58c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Navigate Up",
+                    "type": "Button",
+                    "id": "50c2a53c-f891-485d-811b-f5708d79fad1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Navigate Down",
+                    "type": "Button",
+                    "id": "d740d55f-e950-4c96-86fe-f2fa7c030611",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Back",
+                    "type": "Button",
+                    "id": "abefdb1d-49b6-4959-9407-c0b5ce2e1eb3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Menu Option 1",
+                    "type": "Button",
+                    "id": "b4841cd4-fdf7-4001-9a6d-9315931e0f84",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "79067724-8efc-4b49-a3c9-fad7a6db8c3c",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Confirm",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "87009568-7d87-48d4-bb60-d6b7bbb77bdc",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Navigate Left",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "304a9444-fcc9-41be-9bb5-36ea524853d9",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Navigate Right",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "329e17fa-8b29-44c8-81c5-2c60298ad2b8",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Navigate Up",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "10e36945-f227-421e-a1db-de4ff42c7ee6",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Navigate Down",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d95c8fb5-2c35-4e94-bb1c-b3cc17aecf38",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Back",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "79963500-4317-4193-8289-b568088bda84",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Menu Option 1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

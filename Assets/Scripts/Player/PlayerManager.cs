@@ -10,6 +10,7 @@ namespace SoulsLikeTutorial
         Animator anim;
         CameraHandler cameraHandler;
         PlayerLocomotion playerLocomotion;
+        UIManager uiManager;
 
         InteractableUI interactableUI;
         public GameObject interactableUIGameObject;
@@ -34,6 +35,7 @@ namespace SoulsLikeTutorial
             anim = GetComponentInChildren<Animator>();
             playerLocomotion = GetComponent<PlayerLocomotion>();
             interactableUI = FindObjectOfType<InteractableUI>();
+            uiManager = FindObjectOfType<UIManager>();
         }
 
         void Update()
@@ -59,23 +61,12 @@ namespace SoulsLikeTutorial
 
         private void LateUpdate()
         {
-            inputHandler.rollFlag = false;
-            inputHandler.rb_Input = false;
-            inputHandler.rt_Input = false;
-            inputHandler.d_Pad_Up = false;
-            inputHandler.d_Pad_Down = false;
-            inputHandler.d_Pad_Left = false;
-            inputHandler.d_Pad_Right = false;
-            inputHandler.a_Input = false;
-            inputHandler.jump_Input = false;
-            inputHandler.inventory_Input = false;
-
             float delta = Time.fixedDeltaTime;
 
             if (cameraHandler != null)
             {
                 cameraHandler.FollowTarget(delta);
-                if (!inputHandler.inventoryFlag)
+                if (!uiManager.isPaused)
                 {
                     cameraHandler.HandleCameraRotation(delta, inputHandler.mouseX, inputHandler.mouseY);
                     cameraHandler.UpdateLockOnState();
@@ -86,6 +77,8 @@ namespace SoulsLikeTutorial
             {
                 playerLocomotion.inAirTimer = playerLocomotion.inAirTimer + Time.deltaTime;
             }
+
+            inputHandler.ResetInputFlags();
         }
 
         public void CheckForInteractable()
@@ -103,7 +96,7 @@ namespace SoulsLikeTutorial
                     {
                         interactableUI.interactableText.text = interactable.interactableText;
                         interactableUIGameObject.SetActive(true);
-                        if (inputHandler.a_Input)
+                        if (inputHandler.interactFlag)
                         {
                             hit.collider.GetComponent<Interactable>().Interact(this);
                         }
@@ -115,7 +108,7 @@ namespace SoulsLikeTutorial
                 if (interactableUIGameObject != null)
                 {
                     interactableUIGameObject.SetActive(false);
-                    if (inputHandler.a_Input)
+                    if (inputHandler.interactFlag)
                     {
                         itemInteractableGameObject.SetActive(false);
                         confirmUIGameObject.SetActive(false);

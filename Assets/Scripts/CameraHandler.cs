@@ -98,7 +98,7 @@ namespace SoulsLikeTutorial
 
         public void HandleCameraRotation(float delta, float mouseXInput, float mouseYInput)
         {
-            if (!inputHandler.lockOn_Input && currentLockOnTarget == null)
+            if (!inputHandler.lockOnFlag && currentLockOnTarget == null)
             {
                 DefaultCameraRotation(delta, mouseXInput, mouseYInput);
             }

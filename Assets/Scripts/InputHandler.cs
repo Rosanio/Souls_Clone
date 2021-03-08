@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace SoulsLikeTutorial
@@ -12,6 +11,7 @@ namespace SoulsLikeTutorial
         public float mouseX;
         public float mouseY;
 
+        // In game inputs
         public bool b_Input;
         public bool rb_Input;
         public bool rt_Input;
@@ -25,12 +25,21 @@ namespace SoulsLikeTutorial
         public bool lockOn_Input;
         public bool walk_Input;
 
+        // Menu navigation inputs
+        public bool confirm_Input;
+        public bool back_Input;
+        public bool menuOption1_Input;
+        public bool navigateLeft_Input;
+        public bool navigateRight_Input;
+        public bool navigateUp_Input;
+        public bool navigateDown_Input;
+
         public bool rollFlag;
         public bool sprintFlag;
         public bool walkFlag;
         public bool comboFlag;
         public bool lockOnFlag;
-        public bool inventoryFlag;
+        public bool interactFlag;
         public float rollInputTimer;
 
         PlayerControls inputActions;
@@ -71,6 +80,13 @@ namespace SoulsLikeTutorial
                 inputActions.PlayerActions.Jump.performed += inputActions => jump_Input = true;
                 inputActions.PlayerActions.Inventory.performed += inputActions => inventory_Input = true;
                 inputActions.PlayerActions.LockOn.performed += inputActions => lockOn_Input = true;
+                inputActions.MenuNavigation.Confirm.performed += i => confirm_Input = true;
+                inputActions.MenuNavigation.Back.performed += i => back_Input = true;
+                inputActions.MenuNavigation.MenuOption1.performed += i => menuOption1_Input = true;
+                inputActions.MenuNavigation.NavigateLeft.performed += i => navigateLeft_Input = true;
+                inputActions.MenuNavigation.NavigateRight.performed += i => navigateRight_Input = true;
+                inputActions.MenuNavigation.NavigateUp.performed += i => navigateUp_Input = true;
+                inputActions.MenuNavigation.NavigateDown.performed += i => navigateDown_Input = true;
             }
 
             inputActions.Enable();
@@ -84,12 +100,46 @@ namespace SoulsLikeTutorial
         public void TickInput(float delta)
         {
             MoveInput(delta);
-            HandleWalkInput();
-            HandleRollInput(delta);
-            HandleAttackInput(delta);
-            HandleQuickSlotInput();
-            HandleInventoryInput();
+            if (!uiManager.isPaused)
+            {
+                HandleWalkInput();
+                HandleRollInput(delta);
+                HandleAttackInput(delta);
+                HandleQuickSlotInput();
+                HandleInteractionInput();
+            }
+            else
+            {
+                HandleInventoryInputs();
+            }
+            HandleInventoryToggle();
             HandleLockOnInput();
+        }
+
+        public void ResetInputFlags()
+        {
+            // In Game Inputs
+            rollFlag = false;
+            rb_Input = false;
+            rt_Input = false;
+            d_Pad_Up = false;
+            d_Pad_Down = false;
+            d_Pad_Left = false;
+            d_Pad_Right = false;
+            a_Input = false;
+            jump_Input = false;
+            inventory_Input = false;
+            lockOn_Input = false;
+            interactFlag = false;
+
+            // Menu Inputs
+            confirm_Input = false;
+            back_Input = false;
+            menuOption1_Input = false;
+            navigateLeft_Input = false;
+            navigateRight_Input = false;
+            navigateUp_Input = false;
+            navigateDown_Input = false;
         }
 
         private void MoveInput(float delta)
@@ -134,7 +184,6 @@ namespace SoulsLikeTutorial
         {
             if (rb_Input || rt_Input)
             {
-                if (inventoryFlag) return; //Don't attack when inventory is open, in case player is clicking a menu option
                 if (playerManager.canDoCombo)
                 {
                     comboFlag = true;
@@ -165,31 +214,41 @@ namespace SoulsLikeTutorial
             }
         }
 
-        private void HandleInventoryInput()
+        private void HandleInteractionInput()
+        {
+            if (a_Input)
+                interactFlag = true;
+        }
+
+        private void HandleInventoryInputs()
+        {
+            if (confirm_Input)
+                uiManager.ConfirmSelectedMenuItem();
+            else if (back_Input)
+                uiManager.GoBack();
+            else if (menuOption1_Input)
+                uiManager.PerformOption1();
+            else if (navigateLeft_Input)
+                uiManager.NavigateLeft();
+            else if (navigateRight_Input)
+                uiManager.NavigateRight();
+            else if (navigateUp_Input)
+                uiManager.NavigateUp();
+            else if (navigateDown_Input)
+                uiManager.NavigateDown();
+        }
+
+        private void HandleInventoryToggle()
         {
             if (inventory_Input)
             {
-                inventoryFlag = !inventoryFlag;
-
-                if (inventoryFlag)
-                {
-                    Cursor.lockState = CursorLockMode.None;
-                    uiManager.OpenSelectWindow();
-                    uiManager.UpdateUI();
-                    uiManager.hudWindow.SetActive(false);
-                }
-                else
-                {
-                    uiManager.CloseAllInventoryWindows();
-                    uiManager.hudWindow.SetActive(true);
-                    Cursor.lockState = CursorLockMode.Locked;
-                }
+                uiManager.TogglePauseMenu();
             }
         }
 
         private void HandleLockOnInput()
         {
-            if (inventoryFlag)
+            if (uiManager.isPaused)
             {
                 lockOn_Input = false;
                 cameraHandler.ClearLockOnTargets();
@@ -234,7 +293,6 @@ namespace SoulsLikeTutorial
         private IEnumerator EnableTargetSwitching()
         {
             yield return new WaitForSeconds(0.5f);
-            print("Enabling lock on from coroutine");
             switchingLockOnTarget = false;
         }
     }
