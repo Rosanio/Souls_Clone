@@ -12,6 +12,8 @@ namespace SoulsLikeTutorial
             PlayerStats playerStats = other.GetComponent<PlayerStats>();
             if (playerStats != null)
             {
+                WeaponSlotManager weaponSlotManager = other.GetComponentInChildren<WeaponSlotManager>();
+                weaponSlotManager.CloseDamageCollider();
                 playerStats.TakeDamage(damage);
             }
         }

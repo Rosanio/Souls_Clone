@@ -16,12 +16,12 @@ TagManager:
   - 
   - 
   - Enemies
-  - 
+  - Character
   - Controller
-  - 
+  - Character Collision Blocker
   - Environment
-  - 
-  - 
+  - DeadCharacter
+  - Weapon
   - 
   - 
   - 

@@ -5,19 +5,7 @@ using UnityEngine.UI;
 
 namespace SoulsLikeTutorial
 {
-    public class StaminaBar : MonoBehaviour
+    public class StaminaBar : StatMeter
     {
-        public Slider slider;
-
-        public void SetMaxStamina(int maxStamina)
-        {
-            slider.maxValue = maxStamina;
-            slider.value = maxStamina;
-        }
-
-        public void SetCurrentStamina(int stamina)
-        {
-            slider.value = stamina;
-        }
     }
 }

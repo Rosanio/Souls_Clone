@@ -18,7 +18,7 @@ namespace SoulsLikeTutorial
         {
             PlayerInventory playerInventory = playerManager.GetComponent<PlayerInventory>();
             PlayerLocomotion playerLocomotion = playerManager.GetComponent<PlayerLocomotion>();
-            AnimatorHandler animatorHandler = playerManager.GetComponentInChildren<AnimatorHandler>();
+            PlayerAnimatorHandler animatorHandler = playerManager.GetComponentInChildren<PlayerAnimatorHandler>();
 
             playerLocomotion.rigidbody.velocity = Vector3.zero; //Stops the player from moving while picking up the item
             animatorHandler.PlayTargetAnimation("Pick Up", true);

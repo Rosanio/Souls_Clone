@@ -6,36 +6,27 @@ namespace SoulsLikeTutorial
 {
     public class UIManager : MonoBehaviour
     {
-        PlayerInventory playerInventory;
-        WeaponSlotManager weaponSlotManager;
-
         [Header("Menu Managers")]
         public SelectMenuManager selectMenuManager;
         public EquipmentMenuManager equipmentMenuManager;
         public InventoryMenuManager inventoryMenuManager;
 
         public GameObject hudWindow;
-        [HideInInspector]
         public GameObject lockOnTarget;
+        public GameObject enemyHealthBar;
         
-        [HideInInspector]
-        public bool isPaused = false;
+        [HideInInspector] public bool isPaused = false;
 
         MenuManager currentMenuManager;
 
         private void Awake()
         {
-            playerInventory = FindObjectOfType<PlayerInventory>();
-            weaponSlotManager = FindObjectOfType<WeaponSlotManager>();
-
             // Activate the inventory menu manager game object, so that updates can be applied to it before
             // it is visible to the player. This prevents icons popping in or colors changing on the first frame
             inventoryMenuManager.gameObject.SetActive(true);
             inventoryMenuManager.InitializeInventoryUI();
             inventoryMenuManager.gameObject.SetActive(false);
         }
-
-        // TODO: Add controls menu
 
         #region Menu Toggling
 
@@ -142,6 +133,24 @@ namespace SoulsLikeTutorial
         }
 
         #endregion
+
+        public void EnableLockOnUI()
+        {
+            lockOnTarget.SetActive(true);
+            enemyHealthBar.SetActive(true);
+        }
+
+        public void PositionLockOnUI(Vector3 targetPosition, Vector3 healthBarPosition)
+        {
+            lockOnTarget.transform.position = targetPosition;
+            enemyHealthBar.transform.position = healthBarPosition;
+        }
+
+        public void DisableLockOnUI()
+        {
+            lockOnTarget.SetActive(false);
+            enemyHealthBar.SetActive(false);
+        }
     }
 }
 

@@ -38,20 +38,19 @@ namespace SoulsLikeTutorial
         public float lockedPivotPosition = 2.25f;
         public float unlockedPivotPosition = 1.65f;
 
-        public Transform currentLockOnTarget;
+        public CharacterManager currentLockOnTarget;
         List<CharacterManager> availableTargets = new List<CharacterManager>();
-        public Transform nearestLockOnTarget;
+        public CharacterManager nearestLockOnTarget;
         public Transform leftLockTarget;
         public Transform rightLockTarget;
         public float maximumLockOnDistance = 20;
-        private bool lockOnRotationComplete = true;
 
         private void Awake()
         {
             singleton = this;
             myTransform = transform;
             defaultPosition = cameraTransform.localPosition.z;
-            ignoreLayers = ~(1 << 8 | 1 << 9 | 1 << 10);
+            ignoreLayers = ~(1 << 8 | 1 << 9 | 1 << 10 | 1 << 11 | 1 << 13);
             targetTransform = FindObjectOfType<PlayerManager>().transform;
 
             inputHandler = FindObjectOfType<InputHandler>();
@@ -130,7 +129,7 @@ namespace SoulsLikeTutorial
 
         private void LockedOnCameraRotation(float delta)
         {
-            Vector3 direction = currentLockOnTarget.position - transform.position;
+            Vector3 direction = currentLockOnTarget.lockOnTransform.position - transform.position;
 
             //Override the look angle so that the camera doesn't move unexpectedly when leaving the lock on state
             lookAngle = Vector3.SignedAngle(Vector3.forward, direction, Vector3.up);
@@ -138,27 +137,11 @@ namespace SoulsLikeTutorial
             direction.Normalize();
             direction.y = 0;
 
-            Quaternion targetRotation;
-
-            // When switching lock on targets, the camera should smoothly move from one target to the other. Otherwise it
-            // stay locked to the target position.
-            if (lockOnRotationComplete)
-            {
-                targetRotation = Quaternion.LookRotation(direction);
-            }
-            else
-            {
-                Quaternion tr = Quaternion.LookRotation(direction);
-                targetRotation = Quaternion.Slerp(transform.rotation, tr, delta/0.4f);
-                if (Quaternion.Angle(tr, targetRotation) < 2)
-                {
-                    lockOnRotationComplete = true;
-                }
-            }
-            
+            Quaternion tr = Quaternion.LookRotation(direction);
+            Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, delta/0.4f);
             transform.rotation = targetRotation;
 
-            direction = currentLockOnTarget.position - cameraPivotTransform.position;
+            direction = currentLockOnTarget.lockOnTransform.position - cameraPivotTransform.position;
             direction.Normalize();
 
             targetRotation = Quaternion.LookRotation(direction);
@@ -166,8 +149,9 @@ namespace SoulsLikeTutorial
             eulerAngle.y = 0;
             cameraPivotTransform.localEulerAngles = eulerAngle;
 
-            //Ensure the target icon appears over the enemy being targeted.
-            uiManager.lockOnTarget.transform.position = Camera.main.WorldToScreenPoint(currentLockOnTarget.position);
+            Vector3 lockOnTargetScreenPosition = Camera.main.WorldToScreenPoint(currentLockOnTarget.lockOnTransform.position);
+            Vector3 enemyHealthBarScreenPosition = Camera.main.WorldToScreenPoint(currentLockOnTarget.healthBarTransform.position);
+            uiManager.PositionLockOnUI(lockOnTargetScreenPosition, enemyHealthBarScreenPosition);
 
         }
 
@@ -175,7 +159,7 @@ namespace SoulsLikeTutorial
         {
             if (!inputHandler.lockOnFlag) return;
 
-            if (Vector3.Distance(targetTransform.position, currentLockOnTarget.position) > maximumLockOnDistance)
+            if (Vector3.Distance(targetTransform.position, currentLockOnTarget.lockOnTransform.position) > maximumLockOnDistance)
             {
                 ClearLockOnTargets();
                 if(!LockOnToNearestTarget())
@@ -196,7 +180,7 @@ namespace SoulsLikeTutorial
                 if (distanceFromTarget < shortestDistance)
                 {
                     shortestDistance = distanceFromTarget;
-                    nearestLockOnTarget = target.lockOnTransform;
+                    nearestLockOnTarget = target;
                 }
             }
 
@@ -214,23 +198,23 @@ namespace SoulsLikeTutorial
 
             GetLockOnTargetsInRange();
 
-            Transform newTarget = null;
+            CharacterManager newTarget = null;
 
             foreach(CharacterManager target in availableTargets)
             {
-                Vector3 relativeEnemyPosition = currentLockOnTarget.InverseTransformPoint(target.transform.position);
+                Vector3 relativeEnemyPosition = currentLockOnTarget.lockOnTransform.InverseTransformPoint(target.transform.position);
                 float distanceFromLeftTarget = currentLockOnTarget.transform.position.x - target.transform.position.x;
                 float distanceFromRightTarget = currentLockOnTarget.transform.position.x + target.transform.position.x;
 
                 if (relativeEnemyPosition.x > 0 && distanceFromLeftTarget < shortestDistanceOfLeftTarget && isLeft)
                 {
                     shortestDistanceOfLeftTarget = distanceFromLeftTarget;
-                    newTarget = target.lockOnTransform;
+                    newTarget = target;
                 }
                 else if (relativeEnemyPosition.x < 0 && distanceFromRightTarget < shortestDistanceOfRightTarget && !isLeft)
                 {
                     shortestDistanceOfRightTarget = distanceFromRightTarget;
-                    newTarget = target.lockOnTransform;
+                    newTarget = target;
                 }
             }
 
@@ -247,7 +231,7 @@ namespace SoulsLikeTutorial
             rightLockTarget = null;
             nearestLockOnTarget = null;
             currentLockOnTarget = null;
-            uiManager.lockOnTarget.SetActive(false);
+            uiManager.DisableLockOnUI();
         }
 
         public void SetCameraHeight()
@@ -295,11 +279,11 @@ namespace SoulsLikeTutorial
             }
         }
 
-        private void SetNewLockOnTarget(Transform newTarget)
+        private void SetNewLockOnTarget(CharacterManager newTarget)
         {
-            lockOnRotationComplete = false;
             currentLockOnTarget = newTarget;
-            uiManager.lockOnTarget.SetActive(true);
+            newTarget.GetComponent<CharacterStats>().SetTargetHealthBar(uiManager.enemyHealthBar.GetComponent<StatMeter>());
+            uiManager.EnableLockOnUI();
         }
     }
 

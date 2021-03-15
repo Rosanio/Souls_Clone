@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 763366215386975982}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: BattleAxe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 1120845455741853066}
   - component: {fileID: 3336013615387857778}
   - component: {fileID: 2897887773323766742}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: BattleAxe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,7 +148,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5881801193131440283}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: WeaponPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}

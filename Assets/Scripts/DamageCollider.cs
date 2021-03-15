@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace SoulsLikeTutorial
 {
@@ -30,24 +28,12 @@ namespace SoulsLikeTutorial
 
         private void OnTriggerEnter(Collider collision)
         {
-            if (collision.tag == "Player")
+            CharacterStats stats = collision.GetComponent<CharacterStats>();
+            if (stats != null)
             {
-                PlayerStats playerStats = collision.GetComponent<PlayerStats>();
-
-                if (playerStats != null)
-                {
-                    playerStats.TakeDamage(currentWeaponDamage);
-                }
-            }
-
-            if (collision.tag == "Enemy")
-            {
-                EnemyStats enemyStats = collision.GetComponent<EnemyStats>();
-
-                if (enemyStats != null)
-                {
-                    enemyStats.TakeDamage(currentWeaponDamage);
-                }
+                WeaponSlotManager weaponSlotManager = collision.GetComponentInChildren<WeaponSlotManager>();
+                weaponSlotManager.CloseDamageCollider();
+                stats.TakeDamage(currentWeaponDamage);
             }
         }
     }

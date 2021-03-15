@@ -12,14 +12,15 @@ namespace SoulsLikeTutorial
         public float mouseY;
 
         // In game inputs
-        public bool b_Input;
-        public bool rb_Input;
-        public bool rt_Input;
+        public bool interact_Input;
+        public bool roll_Input;
+        public bool twoHand_Input;
+        public bool rhLightAttack_Input;
+        public bool rhStrongAttack_Input;
         public bool d_Pad_Up;
         public bool d_Pad_Down;
-        public bool d_Pad_Left;
-        public bool d_Pad_Right;
-        public bool a_Input;
+        public bool switchLeftWeapon_Input;
+        public bool switchRightWeapon_Input;
         public bool jump_Input;
         public bool inventory_Input;
         public bool lockOn_Input;
@@ -40,14 +41,18 @@ namespace SoulsLikeTutorial
         public bool comboFlag;
         public bool lockOnFlag;
         public bool interactFlag;
+        public bool twoHandFlag;
+
         public float rollInputTimer;
 
         PlayerControls inputActions;
         PlayerAttacker playerAttacker;
         PlayerInventory playerInventory;
         PlayerManager playerManager;
+        PlayerWeaponSlotManager weaponSlotManager;
         UIManager uiManager;
         CameraHandler cameraHandler;
+        AnimatorHandler animatorHandler;
 
         Vector2 movementInput;
         Vector2 cameraInput;
@@ -60,8 +65,10 @@ namespace SoulsLikeTutorial
             playerAttacker = GetComponent<PlayerAttacker>();
             playerInventory = GetComponent<PlayerInventory>();
             playerManager = GetComponent<PlayerManager>();
+            weaponSlotManager = GetComponentInChildren<PlayerWeaponSlotManager>();
             uiManager = FindObjectOfType<UIManager>();
             cameraHandler = FindObjectOfType<CameraHandler>();
+            animatorHandler = GetComponentInChildren<AnimatorHandler>();
             Cursor.lockState = CursorLockMode.Locked;
         }
 
@@ -70,16 +77,22 @@ namespace SoulsLikeTutorial
             if (inputActions == null)
             {
                 inputActions = new PlayerControls();
+
                 inputActions.PlayerMovement.Movement.performed += inputActions => movementInput = inputActions.ReadValue<Vector2>();
+
                 inputActions.PlayerMovement.Camera.performed += i => cameraInput = i.ReadValue<Vector2>();
-                inputActions.PlayerActions.RB.performed += i => rb_Input = true;
-                inputActions.PlayerActions.RT.performed += i => rt_Input = true;
-                inputActions.InventoryManagement.DPadRight.performed += i => d_Pad_Right = true;
-                inputActions.InventoryManagement.DPadLeft.performed += i => d_Pad_Left = true;
-                inputActions.PlayerActions.Interact.performed += i => a_Input = true;
+
+                inputActions.PlayerActions.RB.performed += i => rhLightAttack_Input = true;
+                inputActions.PlayerActions.RT.performed += i => rhStrongAttack_Input = true;
+                inputActions.PlayerActions.Interact.performed += i => interact_Input = true;
                 inputActions.PlayerActions.Jump.performed += inputActions => jump_Input = true;
                 inputActions.PlayerActions.Inventory.performed += inputActions => inventory_Input = true;
                 inputActions.PlayerActions.LockOn.performed += inputActions => lockOn_Input = true;
+                inputActions.PlayerActions.TwoHand.performed += i => twoHand_Input = true;
+
+                inputActions.InventoryManagement.DPadRight.performed += i => switchRightWeapon_Input = true;
+                inputActions.InventoryManagement.DPadLeft.performed += i => switchLeftWeapon_Input = true;
+
                 inputActions.MenuNavigation.Confirm.performed += i => confirm_Input = true;
                 inputActions.MenuNavigation.Back.performed += i => back_Input = true;
                 inputActions.MenuNavigation.MenuOption1.performed += i => menuOption1_Input = true;
@@ -107,6 +120,7 @@ namespace SoulsLikeTutorial
                 HandleAttackInput(delta);
                 HandleQuickSlotInput();
                 HandleInteractionInput();
+                HandleTwoHandInput();
             }
             else
             {
@@ -120,17 +134,18 @@ namespace SoulsLikeTutorial
         {
             // In Game Inputs
             rollFlag = false;
-            rb_Input = false;
-            rt_Input = false;
+            rhLightAttack_Input = false;
+            rhStrongAttack_Input = false;
             d_Pad_Up = false;
             d_Pad_Down = false;
-            d_Pad_Left = false;
-            d_Pad_Right = false;
-            a_Input = false;
+            switchLeftWeapon_Input = false;
+            switchRightWeapon_Input = false;
+            interact_Input = false;
             jump_Input = false;
             inventory_Input = false;
             lockOn_Input = false;
             interactFlag = false;
+            twoHand_Input = false;
 
             // Menu Inputs
             confirm_Input = false;
@@ -159,8 +174,8 @@ namespace SoulsLikeTutorial
 
         private void HandleRollInput(float delta)
         {
-            b_Input = inputActions.PlayerActions.Roll.phase == UnityEngine.InputSystem.InputActionPhase.Started;
-            if (b_Input)
+            roll_Input = inputActions.PlayerActions.Roll.phase == UnityEngine.InputSystem.InputActionPhase.Started;
+            if (roll_Input)
             {
                 rollInputTimer += delta;
                 if (moveAmount > 0)
@@ -182,8 +197,9 @@ namespace SoulsLikeTutorial
 
         private void HandleAttackInput(float delta)
         {
-            if (rb_Input || rt_Input)
+            if (rhLightAttack_Input || rhStrongAttack_Input)
             {
+                animatorHandler.anim.SetBool("isUsingRightHand", true);
                 if (playerManager.canDoCombo)
                 {
                     comboFlag = true;
@@ -194,7 +210,7 @@ namespace SoulsLikeTutorial
                 {
                     if (playerManager.isInteracting || playerManager.canDoCombo)
                         return;
-                    if (rt_Input)
+                    if (rhStrongAttack_Input)
                         playerAttacker.HandleHeavyAttack(playerInventory.rightWeapon);
                     else
                         playerAttacker.HandleLightAttack(playerInventory.rightWeapon);
@@ -204,11 +220,11 @@ namespace SoulsLikeTutorial
 
         private void HandleQuickSlotInput()
         {
-            if (d_Pad_Right)
+            if (switchRightWeapon_Input)
             {
                 playerInventory.ChangeRightWeapon();
             }
-            if (d_Pad_Left)
+            if (switchLeftWeapon_Input)
             {
                 playerInventory.ChangeLeftWeapon();
             }
@@ -216,7 +232,7 @@ namespace SoulsLikeTutorial
 
         private void HandleInteractionInput()
         {
-            if (a_Input)
+            if (interact_Input)
                 interactFlag = true;
         }
 
@@ -288,6 +304,24 @@ namespace SoulsLikeTutorial
             }
 
             cameraHandler.SetCameraHeight();
+        }
+
+        private void HandleTwoHandInput()
+        {
+            if (twoHand_Input)
+            {
+                twoHandFlag = !twoHandFlag;
+
+                if (twoHandFlag)
+                {
+                    weaponSlotManager.LoadWeaponOnSlot(playerInventory.rightWeapon, false);
+                }
+                else
+                {
+                    weaponSlotManager.LoadWeaponOnSlot(playerInventory.rightWeapon, false);
+                    weaponSlotManager.LoadWeaponOnSlot(playerInventory.leftWeapon, true);
+                }
+            }
         }
 
         private IEnumerator EnableTargetSwitching()
