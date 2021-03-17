@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SoulsLikeTutorial
 {
-    public class EnemyAttacker : MonoBehaviour
+    public class EnemyAttacker : Attacker
     {
         public EnemyAttackAction[] enemyAttacks;
 
@@ -12,12 +12,23 @@ namespace SoulsLikeTutorial
         EnemyAnimatorHandler animatorHandler;
 
         EnemyAttackAction currentAttack;
+        EnemyAttackAction lastAttack;
 
         private void Awake()
         {
             enemyManager = GetComponent<EnemyManager>();
             animatorHandler = GetComponentInChildren<EnemyAnimatorHandler>();
             Random.InitState((int)System.DateTime.Now.Ticks);
+        }
+
+        public override int GetCurrentAttackDamage()
+        {
+            return lastAttack.damage;
+        }
+
+        public override int GetCurrentAttackPoiseDamage()
+        {
+            return lastAttack.poiseDamage;
         }
 
         public void Attack()
@@ -27,6 +38,7 @@ namespace SoulsLikeTutorial
             animatorHandler.PlayTargetAnimation(currentAttack.actionAnimation, true);
             enemyManager.isPerformingAction = true;
             enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
+            lastAttack = currentAttack;
             currentAttack = null;
         }
 

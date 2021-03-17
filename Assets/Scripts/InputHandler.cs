@@ -208,7 +208,7 @@ namespace SoulsLikeTutorial
                 }
                 else
                 {
-                    if (playerManager.isInteracting || playerManager.canDoCombo)
+                    if (playerManager.isInteracting)
                         return;
                     if (rhStrongAttack_Input)
                         playerAttacker.HandleHeavyAttack(playerInventory.rightWeapon);

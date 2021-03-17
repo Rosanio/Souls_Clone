@@ -20,14 +20,16 @@ MonoBehaviour:
   Right_Hand_Idle: Right_Arm_Idle_01
   Left_Hand_Idle: Left_Arm_Idle_01
   Two_Hand_Idle: 2H_Idle
-  OH_Light_Attack_1: OH_Light_Attack_1
-  OH_Light_Attack_2: OH_Light_Attack_2
-  OH_Heavy_Attack_1: OH_Heavy_Attack_1
-  OH_Heavy_Attack_2: OH_Heavy_Attack_2
-  TH_Light_Attack_1: 2H_Light_Attack_01
-  TH_Light_Attack_2: 2H_Light_Attack_02
-  TH_Heavy_Attack_1: 
-  TH_Heavy_Attack_2: 
+  OH_Light_Attack_1: {fileID: 11400000, guid: 7c1a717ecbbc6384d9e9d2c7014cb4b2, type: 2}
+  OH_Light_Attack_2: {fileID: 11400000, guid: cf36f1345de76ae40b76820256e95ed6, type: 2}
+  OH_Heavy_Attack_1: {fileID: 11400000, guid: 8ca8a03f95bd340468670b8837fb328b, type: 2}
+  OH_Heavy_Attack_2: {fileID: 11400000, guid: 708213e0679b5414aa036e95df9c79d1, type: 2}
+  TH_Light_Attack_1: {fileID: 11400000, guid: aecc9f09dab535040b4425420f5784be, type: 2}
+  TH_Light_Attack_2: {fileID: 11400000, guid: d4320adbb15e51143a9f841390310b98, type: 2}
+  TH_Heavy_Attack_1: {fileID: 11400000, guid: 27a45a6f2316167478c2efa8e9d825f1, type: 2}
+  TH_Heavy_Attack_2: {fileID: 11400000, guid: 70760dcf543bfda42bce237e0e6feb48, type: 2}
+  baseDamage: 35
+  basePoiseDamage: 30
   baseStamina: 30
   lightAttackMultiplier: 1
   heavyAttackMultiplier: 2

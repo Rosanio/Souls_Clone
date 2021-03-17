@@ -23,16 +23,15 @@ namespace SoulsLikeTutorial
             playerManager = GetComponent<PlayerManager>();
         }
 
+        public override void TakeDamage(int damage, int poiseDamage)
+        {
+            if (playerManager.isInvulnerable) return;
+            base.TakeDamage(damage, poiseDamage);
+        }
+
         private void SetMaxStaminaFromStaminaLevel()
         {
             maxStamina = staminaLevel * 10;
-        }
-
-        public override void TakeDamage(int damage)
-        {
-            if (playerManager.isInvulnerable) return;
-
-            base.TakeDamage(damage);
         }
 
         public void TakeStaminaDamage(int damage)
@@ -41,6 +40,13 @@ namespace SoulsLikeTutorial
 
             staminaBar.SetValue(currentStamina);
             staminaRegenTimer = 0;
+        }
+
+        public override void HandleStatRegeneration()
+        {
+            base.HandleStatRegeneration();
+            if (!playerManager.isInteracting)
+                RegenerateStamina();
         }
 
         public void RegenerateStamina()

@@ -8,13 +8,18 @@ namespace SoulsLikeTutorial
     {
         public Animator anim;
 
-        public void PlayTargetAnimation(string targetAnim, bool isInteracting)
+        CharacterStats stats;
+
+        protected virtual void Awake()
         {
-            if (anim.GetBool("isInteracting"))
-                anim.Rebind();
+            stats = GetComponentInParent<CharacterStats>();
+        }
+
+        public void PlayTargetAnimation(string targetAnim, bool isInteracting, float crossFadeTime = 0.2f)
+        {
             anim.applyRootMotion = isInteracting;
             anim.SetBool("isInteracting", isInteracting);
-            anim.CrossFade(targetAnim, 0.2f);
+            anim.CrossFade(targetAnim, crossFadeTime);
         }
 
         public virtual void EnableRotation()
@@ -25,6 +30,21 @@ namespace SoulsLikeTutorial
         public virtual void DisableRotation()
         {
             
+        }
+
+        public virtual void EnableCombo()
+        {
+
+        }
+
+        public virtual void DisableCombo()
+        {
+
+        }
+
+        public virtual void ExitStaggerState()
+        {
+            stats.isStaggered = false;
         }
     }
 }

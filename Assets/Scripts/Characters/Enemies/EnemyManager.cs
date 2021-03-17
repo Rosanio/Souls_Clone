@@ -10,7 +10,6 @@ namespace SoulsLikeTutorial
     {
         public State currentState;
         public bool isPerformingAction;
-        public bool isInteracting;
         public CharacterManager currentTarget;
         public NavMeshAgent navMeshAgent;
         public Rigidbody enemyRigidbody;
@@ -18,23 +17,21 @@ namespace SoulsLikeTutorial
         [HideInInspector]
         public float currentRecoveryTime = 0;
 
-        EnemyAnimatorHandler enemyAnimatorHandler;
-        EnemyStats stats;
-
         private void Awake()
         {
-            enemyAnimatorHandler = GetComponentInChildren<EnemyAnimatorHandler>();
             navMeshAgent = GetComponentInChildren<NavMeshAgent>();
             enemyRigidbody = GetComponent<Rigidbody>();
-            stats = GetComponent<EnemyStats>();
         }
 
-        private void Update()
+        protected override void Update()
         {
             if (stats.isDead) return;
-            HandleRecoveryTimer();
 
-            isInteracting = enemyAnimatorHandler.anim.GetBool("isInteracting");
+            base.Update();
+
+            HandleRecoveryTimer();
+            stats.HandleStatRegeneration();
+
         }
 
         private void FixedUpdate()

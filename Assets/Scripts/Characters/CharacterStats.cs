@@ -5,6 +5,7 @@ namespace SoulsLikeTutorial
     public class CharacterStats : MonoBehaviour
     {
         protected AnimatorHandler animatorHandler;
+        protected WeaponSlotManager weaponSlotManager;
 
         public StatMeter healthBar;
 
@@ -16,31 +17,52 @@ namespace SoulsLikeTutorial
         public float maxStamina;
         public float currentStamina;
 
-        public bool isDead;
+        public int poise;
+        public float currentPoiseBuildUp;
+        public float poiseRegenerationAmount = 1;
+
+        public bool isStaggered;
+        [HideInInspector] public bool isDead;
 
         protected virtual void Start()
         {
             SetMaxHealthFromHealthLevel();
             currentHealth = maxHealth;
             animatorHandler = GetComponentInChildren<AnimatorHandler>();
+            weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
         }
 
-        public virtual void TakeDamage(int damage)
+        public virtual void TakeDamage(int damage, int poiseDamage)
         {
             if (isDead) return;
+
+            weaponSlotManager.CloseDamageCollider();
 
             currentHealth -= damage;
             if (healthBar)
                 healthBar.SetValue(currentHealth);
 
-            if (currentHealth > 0)
-            {
-                animatorHandler.PlayTargetAnimation("Damage Light", true);
-            }
-            else
+            if (!isStaggered)
+                currentPoiseBuildUp += poiseDamage;
+
+            if (currentHealth < 0)
             {
                 animatorHandler.PlayTargetAnimation("Death 01", true);
                 isDead = true;
+            }
+            else if(currentPoiseBuildUp > poise)
+            {
+                currentPoiseBuildUp = 0;
+                animatorHandler.PlayTargetAnimation("Damage Light", true);
+                isStaggered = true;
+            }
+        }
+
+        public virtual void HandleStatRegeneration()
+        {
+            if (currentPoiseBuildUp > 0)
+            {
+                currentPoiseBuildUp -= poiseRegenerationAmount * Time.deltaTime;
             }
         }
 

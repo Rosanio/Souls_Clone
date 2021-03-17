@@ -9,8 +9,9 @@ namespace SoulsLikeTutorial
         EnemyManager enemyManager;
         EnemyLocomotionManager locomotionManager;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             anim = GetComponent<Animator>();
             enemyManager = GetComponentInParent<EnemyManager>();
             locomotionManager = GetComponentInParent<EnemyLocomotionManager>();
@@ -24,16 +25,6 @@ namespace SoulsLikeTutorial
             deltaPosition.y = 0;
             Vector3 velocity = deltaPosition / delta;
             enemyManager.enemyRigidbody.velocity = velocity;
-        }
-
-        public void EnableCombo()
-        {
-            
-        }
-
-        public void DisableCombo()
-        {
-            
         }
 
         public override void EnableRotation()

@@ -9,6 +9,8 @@ namespace SoulsLikeTutorial
         public WeaponItem rightHandWeapon;
         public WeaponItem leftHandWeapon;
 
+        EnemyStats stats;
+
         private void Awake()
         {
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
@@ -23,6 +25,8 @@ namespace SoulsLikeTutorial
                     rightHandSlot = weaponSlot;
                 }
             }
+
+            stats = GetComponentInParent<EnemyStats>();
         }
 
         private void Start()
@@ -72,6 +76,8 @@ namespace SoulsLikeTutorial
 
         public override void OpenDamageCollider()
         {
+            if (stats.isStaggered || stats.isDead) return;
+
             rightHandDamageCollider.EnableDamageCollider();
         }
 

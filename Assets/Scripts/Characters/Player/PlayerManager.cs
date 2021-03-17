@@ -7,18 +7,14 @@ namespace SoulsLikeTutorial
     public class PlayerManager : CharacterManager
     {
         InputHandler inputHandler;
-        Animator anim;
         CameraHandler cameraHandler;
         PlayerLocomotion playerLocomotion;
         UIManager uiManager;
-        PlayerStats playerStats;
 
         InteractableUI interactableUI;
         public GameObject interactableUIGameObject;
         public GameObject itemInteractableGameObject;
         public GameObject confirmUIGameObject;
-
-        public bool isInteracting;
 
         [Header("Player Flags")]
         public bool isInAir;
@@ -37,31 +33,29 @@ namespace SoulsLikeTutorial
         {
             base.Start();
             inputHandler = GetComponent<InputHandler>();
-            anim = GetComponentInChildren<Animator>();
             playerLocomotion = GetComponent<PlayerLocomotion>();
             interactableUI = FindObjectOfType<InteractableUI>();
             uiManager = FindObjectOfType<UIManager>();
-            playerStats = GetComponent<PlayerStats>();
         }
 
-        void Update()
+        protected override void Update()
         {
+            base.Update();
             float delta = Time.deltaTime;
-            isInteracting = anim.GetBool("isInteracting");
-            canDoCombo = anim.GetBool("canDoCombo");
-            anim.SetBool("isInAir", isInAir);
-            isUsingRightHand = anim.GetBool("isUsingRightHand");
-            isUsingLeftHand = anim.GetBool("isUsingLeftHand");
-            isInvulnerable = anim.GetBool("isInvulnerable");
+            canDoCombo = animatorHandler.anim.GetBool("canDoCombo");
+            animatorHandler.anim.SetBool("isInAir", isInAir);
+            isUsingRightHand = animatorHandler.anim.GetBool("isUsingRightHand");
+            isUsingLeftHand = animatorHandler.anim.GetBool("isUsingLeftHand");
+            isInvulnerable = animatorHandler.anim.GetBool("isInvulnerable");
             inputHandler.TickInput(delta);
 
             playerLocomotion.HandleRollingAndSprinting(delta);
             playerLocomotion.HandleJumping();
 
-            if (!isInteracting)
-                playerStats.RegenerateStamina();
+            stats.HandleStatRegeneration();
 
             CheckForInteractable();
+
         }
         private void FixedUpdate()
         {
@@ -86,7 +80,7 @@ namespace SoulsLikeTutorial
 
             if (isInAir)
             {
-                playerLocomotion.inAirTimer = playerLocomotion.inAirTimer + Time.deltaTime;
+                playerLocomotion.inAirTimer += Time.deltaTime;
             }
 
             inputHandler.ResetInputFlags();

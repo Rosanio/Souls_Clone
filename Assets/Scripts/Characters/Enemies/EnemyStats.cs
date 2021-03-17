@@ -12,9 +12,9 @@ namespace SoulsLikeTutorial
             enemyManager = GetComponent<EnemyManager>();
         }
 
-        public override void TakeDamage(int damage)
+        public override void TakeDamage(int damage, int poiseDamage)
         {
-            base.TakeDamage(damage);
+            base.TakeDamage(damage, poiseDamage);
 
             if (isDead)
                 enemyManager.HandleDeath();

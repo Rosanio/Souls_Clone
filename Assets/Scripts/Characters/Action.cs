@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SoulsLikeTutorial
 {
-    public class EnemyAction : ScriptableObject
+    public class Action : ScriptableObject
     {
         public string actionAnimation;
     }

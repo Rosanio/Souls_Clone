@@ -105,6 +105,8 @@ namespace SoulsLikeTutorial
 
         public override void OpenDamageCollider()
         {
+            if (playerStats.isStaggered || playerStats.isDead) return;
+
             if (playerManager.isUsingRightHand)
                 rightHandDamageCollider.EnableDamageCollider();
             else if (playerManager.isUsingLeftHand)

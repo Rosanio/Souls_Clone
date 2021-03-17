@@ -1579,6 +1579,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 959258703023795727}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1047022950 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1047022950, guid: b448c5070f7a8d349922a6fa2a28a3d0,
+    type: 3}
+  m_PrefabInstance: {fileID: 3946901933456471895}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0634ebf5118ff142a9b886f017e8873, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1052670572
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3867,6 +3879,16 @@ PrefabInstance:
       propertyPath: staminaBar
       value: 
       objectReference: {fileID: 1516414162}
+    - target: {fileID: 3144374490243241575, guid: 0679c876c9ae37c43b2833867cd2786f,
+        type: 3}
+      propertyPath: healthLevel
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3144374490243241575, guid: 0679c876c9ae37c43b2833867cd2786f,
+        type: 3}
+      propertyPath: poise
+      value: 25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0679c876c9ae37c43b2833867cd2786f, type: 3}
 --- !u!1001 &3946901933456471895
@@ -3876,6 +3898,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2799042251443282758, guid: b448c5070f7a8d349922a6fa2a28a3d0,
+        type: 3}
+      propertyPath: currentState
+      value: 
+      objectReference: {fileID: 1047022950}
+    - target: {fileID: 9084033055359358692, guid: b448c5070f7a8d349922a6fa2a28a3d0,
+        type: 3}
+      propertyPath: poise
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 9084033055359358693, guid: b448c5070f7a8d349922a6fa2a28a3d0,
         type: 3}
       propertyPath: m_LocalPosition.x

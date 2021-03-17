@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace SoulsLikeTutorial
 {
-    public class PlayerAttacker : MonoBehaviour
+    public class PlayerAttacker : Attacker
     {
         PlayerAnimatorHandler animatorHandler;
         InputHandler inputHandler;
         PlayerStats playerStats;
         PlayerWeaponSlotManager weaponSlotManager;
-        public string lastAttack;
+        public PlayerAttackAction lastAttack;
 
         private void Awake()
         {
@@ -18,6 +18,16 @@ namespace SoulsLikeTutorial
             inputHandler = GetComponent<InputHandler>();
             playerStats = GetComponent<PlayerStats>();
             weaponSlotManager = GetComponentInChildren<PlayerWeaponSlotManager>();
+        }
+
+        public override int GetCurrentAttackDamage()
+        {
+            return Mathf.RoundToInt(weaponSlotManager.attackingWeapon.baseDamage * lastAttack.damageMultiplier);
+        }
+
+        public override int GetCurrentAttackPoiseDamage()
+        {
+            return Mathf.RoundToInt(weaponSlotManager.attackingWeapon.basePoiseDamage * lastAttack.poiseDamageMultiplier);
         }
 
         public void HandleWeaponCombo(WeaponItem weapon)
@@ -56,33 +66,33 @@ namespace SoulsLikeTutorial
 
         private void LightAttack1(WeaponItem weapon)
         {
-            string attack = inputHandler.twoHandFlag ? weapon.TH_Light_Attack_1 : weapon.OH_Light_Attack_1;
+            PlayerAttackAction attack = inputHandler.twoHandFlag ? weapon.TH_Light_Attack_1 : weapon.OH_Light_Attack_1;
             PerformAttack(weapon, attack);
         }
 
         private void LightAttack2(WeaponItem weapon)
         {
-            string attack = inputHandler.twoHandFlag ? weapon.TH_Light_Attack_2 : weapon.OH_Light_Attack_2;
+            PlayerAttackAction attack = inputHandler.twoHandFlag ? weapon.TH_Light_Attack_2 : weapon.OH_Light_Attack_2;
             PerformAttack(weapon, attack);
         }
 
         private void HeavyAttack1(WeaponItem weapon)
         {
-            string attack = inputHandler.twoHandFlag ? weapon.TH_Heavy_Attack_1 : weapon.OH_Heavy_Attack_1;
+            PlayerAttackAction attack = inputHandler.twoHandFlag ? weapon.TH_Heavy_Attack_1 : weapon.OH_Heavy_Attack_1;
             PerformAttack(weapon, attack);
         }
 
         private void HeavyAttack2(WeaponItem weapon)
         {
-            string attack = inputHandler.twoHandFlag ? weapon.TH_Heavy_Attack_2 : weapon.OH_Heavy_Attack_2;
+            PlayerAttackAction attack = inputHandler.twoHandFlag ? weapon.TH_Heavy_Attack_2 : weapon.OH_Heavy_Attack_2;
             PerformAttack(weapon, attack);
         }
 
-        private void PerformAttack(WeaponItem weapon, string attack)
+        private void PerformAttack(WeaponItem weapon, PlayerAttackAction attack)
         {
             if (playerStats.currentStamina <= 0) return;
             weaponSlotManager.attackingWeapon = weapon;
-            animatorHandler.PlayTargetAnimation(attack, true);
+            animatorHandler.PlayTargetAnimation(attack.actionAnimation, true);
             lastAttack = attack;
         }
     }

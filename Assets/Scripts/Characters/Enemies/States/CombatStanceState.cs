@@ -16,6 +16,7 @@ namespace SoulsLikeTutorial
 
         public override State Tick()
         {
+            if (enemyStats.isStaggered) return this;
 
             if (enemyManager.isPerformingAction)
             {

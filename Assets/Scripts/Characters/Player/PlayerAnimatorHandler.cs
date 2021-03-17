@@ -97,12 +97,12 @@ namespace SoulsLikeTutorial
             canRotate = false;
         }
 
-        public void EnableCombo()
+        public override void EnableCombo()
         {
             anim.SetBool("canDoCombo", true);
         }
 
-        public void DisableCombo()
+        public override void DisableCombo()
         {
             anim.SetBool("canDoCombo", false);
         }

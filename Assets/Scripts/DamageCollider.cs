@@ -4,9 +4,8 @@ namespace SoulsLikeTutorial
 {
     public class DamageCollider : MonoBehaviour
     {
+        public WeaponItem weapon;
         Collider damageCollider;
-
-        public int currentWeaponDamage = 25;
 
         private void Awake()
         {
@@ -29,11 +28,10 @@ namespace SoulsLikeTutorial
         private void OnTriggerEnter(Collider collision)
         {
             CharacterStats stats = collision.GetComponent<CharacterStats>();
+            Attacker attacker = GetComponentInParent<Attacker>();
             if (stats != null)
             {
-                WeaponSlotManager weaponSlotManager = collision.GetComponentInChildren<WeaponSlotManager>();
-                weaponSlotManager.CloseDamageCollider();
-                stats.TakeDamage(currentWeaponDamage);
+                stats.TakeDamage(attacker.GetCurrentAttackDamage(), attacker.GetCurrentAttackPoiseDamage());
             }
         }
     }
