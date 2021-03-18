@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 033ad2415ae4ec44bb741a1f7bedbeb4, type: 3}
   m_Name: TH_Heavy_Attack_02
   m_EditorClassIdentifier: 
-  actionAnimation: 
-  damageMultiplier: 0
+  actionAnimation: 2H_Heavy_Attack_02
+  damageMultiplier: 1.8
   poiseDamageMultiplier: 1.8

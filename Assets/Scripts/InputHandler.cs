@@ -38,7 +38,6 @@ namespace SoulsLikeTutorial
         public bool rollFlag;
         public bool sprintFlag;
         public bool walkFlag;
-        public bool comboFlag;
         public bool lockOnFlag;
         public bool interactFlag;
         public bool twoHandFlag;
@@ -202,9 +201,8 @@ namespace SoulsLikeTutorial
                 animatorHandler.anim.SetBool("isUsingRightHand", true);
                 if (playerManager.canDoCombo)
                 {
-                    comboFlag = true;
+                    
                     playerAttacker.HandleWeaponCombo(playerInventory.rightWeapon);
-                    comboFlag = false;
                 }
                 else
                 {

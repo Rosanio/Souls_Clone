@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ namespace SoulsLikeTutorial
 {
     public class PlayerAttacker : Attacker
     {
+        public bool comboFlag;
+
         PlayerAnimatorHandler animatorHandler;
         InputHandler inputHandler;
         PlayerStats playerStats;
@@ -32,25 +35,22 @@ namespace SoulsLikeTutorial
 
         public void HandleWeaponCombo(WeaponItem weapon)
         {
-            if (inputHandler.comboFlag)
+            animatorHandler.anim.SetBool("canDoCombo", false);
+            if (lastAttack == weapon.OH_Light_Attack_1 || lastAttack == weapon.TH_Light_Attack_1)
             {
-                animatorHandler.anim.SetBool("canDoCombo", false);
-                if (lastAttack == weapon.OH_Light_Attack_1 || lastAttack == weapon.TH_Light_Attack_1)
-                {
-                    LightAttack2(weapon);
-                }
-                else if (lastAttack == weapon.OH_Light_Attack_2 || lastAttack == weapon.TH_Light_Attack_2)
-                {
-                    LightAttack1(weapon);
-                }
-                else if (lastAttack == weapon.OH_Heavy_Attack_1 || lastAttack == weapon.TH_Heavy_Attack_1)
-                {
-                    HeavyAttack2(weapon);
-                }
-                else if (lastAttack == weapon.OH_Heavy_Attack_2 || lastAttack == weapon.TH_Heavy_Attack_2)
-                {
-                    HeavyAttack1(weapon);
-                }
+                LightAttack2(weapon);
+            }
+            else if (lastAttack == weapon.OH_Light_Attack_2 || lastAttack == weapon.TH_Light_Attack_2)
+            {
+                LightAttack1(weapon);
+            }
+            else if (lastAttack == weapon.OH_Heavy_Attack_1 || lastAttack == weapon.TH_Heavy_Attack_1)
+            {
+                HeavyAttack2(weapon);
+            }
+            else if (lastAttack == weapon.OH_Heavy_Attack_2 || lastAttack == weapon.TH_Heavy_Attack_2)
+            {
+                HeavyAttack1(weapon);
             }
         }
 
@@ -61,6 +61,7 @@ namespace SoulsLikeTutorial
 
         public void HandleHeavyAttack(WeaponItem weapon)
         {
+            print("Heavy attack");
             HeavyAttack1(weapon);
         }
 
@@ -91,6 +92,9 @@ namespace SoulsLikeTutorial
         private void PerformAttack(WeaponItem weapon, PlayerAttackAction attack)
         {
             if (playerStats.currentStamina <= 0) return;
+            print(attack.actionAnimation);
+            if (attack.actionAnimation == string.Empty)
+                throw new Exception("Attack with missing animation called: " + attack);
             weaponSlotManager.attackingWeapon = weapon;
             animatorHandler.PlayTargetAnimation(attack.actionAnimation, true);
             lastAttack = attack;
