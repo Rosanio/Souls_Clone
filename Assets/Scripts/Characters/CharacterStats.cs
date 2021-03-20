@@ -45,7 +45,7 @@ namespace SoulsLikeTutorial
             if (!isStaggered)
                 currentPoiseBuildUp += poiseDamage;
 
-            if (currentHealth < 0)
+            if (currentHealth <= 0)
             {
                 animatorHandler.PlayTargetAnimation("Death 01", true);
                 isDead = true;

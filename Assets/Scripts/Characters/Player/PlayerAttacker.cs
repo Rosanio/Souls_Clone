@@ -92,7 +92,6 @@ namespace SoulsLikeTutorial
         private void PerformAttack(WeaponItem weapon, PlayerAttackAction attack)
         {
             if (playerStats.currentStamina <= 0) return;
-            print(attack.actionAnimation);
             if (attack.actionAnimation == string.Empty)
                 throw new Exception("Attack with missing animation called: " + attack);
             weaponSlotManager.attackingWeapon = weapon;

@@ -19,10 +19,17 @@ MonoBehaviour:
   isUnarmed: 1
   Right_Hand_Idle: 
   Left_Hand_Idle: 
-  OH_Light_Attack_1: Unarmed_Light_Attack_01
-  OH_Light_Attack_2: Unarmed_Light_Attack_02
-  OH_Heavy_Attack_1: Unarmed_Heavy_Attack_01
-  OH_Heavy_Attack_2: Unarmed_Heavy_Attack_02
+  Two_Hand_Idle: 
+  OH_Light_Attack_1: {fileID: 11400000, guid: 2d21224e7ac0fc742a5548eccdf00636, type: 2}
+  OH_Light_Attack_2: {fileID: 11400000, guid: e9b2f254da022e54e852d9aae10c6d7e, type: 2}
+  OH_Heavy_Attack_1: {fileID: 0}
+  OH_Heavy_Attack_2: {fileID: 0}
+  TH_Light_Attack_1: {fileID: 0}
+  TH_Light_Attack_2: {fileID: 0}
+  TH_Heavy_Attack_1: {fileID: 0}
+  TH_Heavy_Attack_2: {fileID: 0}
+  baseDamage: 5
+  basePoiseDamage: 5
   baseStamina: 0
   lightAttackMultiplier: 0
   heavyAttackMultiplier: 0

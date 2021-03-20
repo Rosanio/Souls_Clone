@@ -159,7 +159,8 @@ namespace SoulsLikeTutorial
         {
             if (!inputHandler.lockOnFlag) return;
 
-            if (Vector3.Distance(targetTransform.position, currentLockOnTarget.lockOnTransform.position) > maximumLockOnDistance)
+            if (Vector3.Distance(targetTransform.position, currentLockOnTarget.lockOnTransform.position) > maximumLockOnDistance ||
+                    currentLockOnTarget.stats.isDead)
             {
                 ClearLockOnTargets();
                 if(!LockOnToNearestTarget())
@@ -250,7 +251,7 @@ namespace SoulsLikeTutorial
             {
                 CharacterManager character = collider.GetComponent<CharacterManager>();
 
-                if (character != null)
+                if (character != null && !character.stats.isDead)
                 {
                     Vector3 lockTargetDirection = character.transform.position - targetTransform.position;
                     float distanceFromTarget = Vector3.Distance(targetTransform.position, character.transform.position);
@@ -265,11 +266,7 @@ namespace SoulsLikeTutorial
                         if (Physics.Linecast(playerManager.lockOnTransform.position, character.lockOnTransform.position, out hit))
                         {
 
-                            if (hit.transform.gameObject.layer == environmentLayer)
-                            {
-                                //Cannot lock on, something in the way
-                            }
-                            else
+                            if (hit.transform.gameObject.layer != environmentLayer)
                             {
                                 availableTargets.Add(character);
                             }

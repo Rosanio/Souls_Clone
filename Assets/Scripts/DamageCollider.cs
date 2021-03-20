@@ -4,7 +4,6 @@ namespace SoulsLikeTutorial
 {
     public class DamageCollider : MonoBehaviour
     {
-        public WeaponItem weapon;
         Collider damageCollider;
 
         private void Awake()

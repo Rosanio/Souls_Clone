@@ -15,8 +15,8 @@ namespace SoulsLikeTutorial
 
         public bool isInteracting;
 
+        public CharacterStats stats;
         protected AnimatorHandler animatorHandler;
-        protected CharacterStats stats;
 
         protected virtual void Start()
         {

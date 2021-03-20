@@ -335,6 +335,17 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""6cde2cbc-c0cc-4ef9-82ba-0cff577d1254"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LockOn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""37d3af42-0e48-4e65-969f-fd43895436a9"",
                     ""path"": ""<Keyboard>/x"",
                     ""interactions"": """",
