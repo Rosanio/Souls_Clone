@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace SoulsLikeTutorial
 {
@@ -11,16 +12,23 @@ namespace SoulsLikeTutorial
         public EquipmentMenuManager equipmentMenuManager;
         public InventoryMenuManager inventoryMenuManager;
 
+        InteractableUI interactableUI;
+
         public GameObject hudWindow;
         public GameObject lockOnTarget;
         public GameObject enemyHealthBar;
-        
+        public GameObject interactableUIGameObject;
+        public GameObject itemInteractableGameObject;
+        public GameObject confirmUIGameObject;
+
         [HideInInspector] public bool isPaused = false;
 
         MenuManager currentMenuManager;
 
         private void Awake()
         {
+            interactableUI = FindObjectOfType<InteractableUI>();
+
             // Activate the inventory menu manager game object, so that updates can be applied to it before
             // it is visible to the player. This prevents icons popping in or colors changing on the first frame
             inventoryMenuManager.gameObject.SetActive(true);
@@ -150,6 +158,39 @@ namespace SoulsLikeTutorial
         {
             lockOnTarget.SetActive(false);
             enemyHealthBar.SetActive(false);
+        }
+
+        public void OnItemPickUp(Item item)
+        {
+            DisableInteractableUI();
+            itemInteractableGameObject.SetActive(true);
+            itemInteractableGameObject.GetComponentInChildren<Text>().text = item.itemName;
+            GameObject.Find("ItemIcon").GetComponent<Image>().sprite = item.icon;
+            confirmUIGameObject.SetActive(true);
+        }
+
+        public void SetActiveInteractable(Interactable interactable)
+        {
+            if (!interactableUIGameObject.activeSelf)
+                interactableUIGameObject.SetActive(true);
+
+            interactableUI.interactableText.text = interactable.interactableText;
+        }
+
+        public void DisableInteractableUI()
+        {
+            interactableUIGameObject.SetActive(false);
+        }
+
+        public void DisableItemPickUpUI()
+        {
+            itemInteractableGameObject.SetActive(false);
+            confirmUIGameObject.SetActive(false);
+        }
+
+        public bool AwaitingConfirmation()
+        {
+            return confirmUIGameObject.activeSelf;
         }
     }
 }

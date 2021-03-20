@@ -39,7 +39,6 @@ namespace SoulsLikeTutorial
         public bool sprintFlag;
         public bool walkFlag;
         public bool lockOnFlag;
-        public bool interactFlag;
         public bool twoHandFlag;
 
         public float rollInputTimer;
@@ -143,7 +142,6 @@ namespace SoulsLikeTutorial
             jump_Input = false;
             inventory_Input = false;
             lockOn_Input = false;
-            interactFlag = false;
             twoHand_Input = false;
 
             // Menu Inputs
@@ -231,7 +229,7 @@ namespace SoulsLikeTutorial
         private void HandleInteractionInput()
         {
             if (interact_Input)
-                interactFlag = true;
+                playerManager.TryInteract();
         }
 
         private void HandleInventoryInputs()

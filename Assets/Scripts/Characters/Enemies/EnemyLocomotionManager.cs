@@ -93,7 +93,6 @@ namespace SoulsLikeTutorial
 
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * speed);
-                print(transform.rotation);
             }
             else
             {

@@ -135,5 +135,13 @@ namespace SoulsLikeTutorial
 
             UpdateWeaponSlots();
         }
+
+        public void PickUpItem(Item item)
+        {
+            if (item is WeaponItem)
+            {
+                weaponsInInventory.Add((WeaponItem)item);
+            }
+        }
     }
 }

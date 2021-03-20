@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,11 +11,7 @@ namespace SoulsLikeTutorial
         CameraHandler cameraHandler;
         PlayerLocomotion playerLocomotion;
         UIManager uiManager;
-
-        InteractableUI interactableUI;
-        public GameObject interactableUIGameObject;
-        public GameObject itemInteractableGameObject;
-        public GameObject confirmUIGameObject;
+        PlayerInventory playerInventory;
 
         [Header("Player Flags")]
         public bool isInAir;
@@ -23,6 +20,9 @@ namespace SoulsLikeTutorial
         public bool isUsingRightHand;
         public bool isUsingLeftHand;
         public bool isInvulnerable;
+
+        private List<Interactable> interactablesInRange = new List<Interactable>();
+        private Interactable activeInteractable;
 
         private void Awake()
         {
@@ -34,8 +34,8 @@ namespace SoulsLikeTutorial
             base.Start();
             inputHandler = GetComponent<InputHandler>();
             playerLocomotion = GetComponent<PlayerLocomotion>();
-            interactableUI = FindObjectOfType<InteractableUI>();
             uiManager = FindObjectOfType<UIManager>();
+            playerInventory = GetComponent<PlayerInventory>();
         }
 
         protected override void Update()
@@ -53,8 +53,6 @@ namespace SoulsLikeTutorial
             playerLocomotion.HandleJumping();
 
             stats.HandleStatRegeneration();
-
-            CheckForInteractable();
 
         }
         private void FixedUpdate()
@@ -86,41 +84,54 @@ namespace SoulsLikeTutorial
             inputHandler.ResetInputFlags();
         }
 
-        public void CheckForInteractable()
+        public void AddInteractable(Interactable interactable)
         {
-            RaycastHit hit;
-            Vector3 raycastStartPosition = transform.position - 0.5f*transform.forward;
-            Debug.DrawRay(raycastStartPosition, transform.forward, Color.red, 0.6f);
-            if (Physics.SphereCast(raycastStartPosition, 0.3f, transform.forward, out hit, 1.2f, cameraHandler.ignoreLayers))
-            {
-                if (hit.collider.tag == "Interactable")
-                {
-                    Interactable interactable = hit.collider.GetComponent<Interactable>();
+            interactablesInRange.Add(interactable);
+            activeInteractable = interactable;
+            uiManager.SetActiveInteractable(activeInteractable);
+        }
 
-                    if (interactable != null)
-                    {
-                        interactableUI.interactableText.text = interactable.interactableText;
-                        interactableUIGameObject.SetActive(true);
-                        if (inputHandler.interactFlag)
-                        {
-                            hit.collider.GetComponent<Interactable>().Interact(this);
-                        }
-                    }
-                }
+        public void RemoveInteractable(Interactable interactable)
+        {
+            interactablesInRange.Remove(interactable);
+            if (interactablesInRange.Count == 0)
+            {
+                activeInteractable = null;
+                uiManager.DisableInteractableUI();
             }
             else
             {
-                if (interactableUIGameObject != null)
+                activeInteractable = interactablesInRange[0];
+                uiManager.SetActiveInteractable(activeInteractable);
+            }
+        }
+
+        public void TryInteract()
+        {
+            if (uiManager.AwaitingConfirmation())
+            {
+                uiManager.DisableItemPickUpUI();
+                if (activeInteractable != null)
                 {
-                    interactableUIGameObject.SetActive(false);
-                    if (inputHandler.interactFlag)
-                    {
-                        itemInteractableGameObject.SetActive(false);
-                        confirmUIGameObject.SetActive(false);
-                    }
+                    uiManager.SetActiveInteractable(activeInteractable);
                 }
             }
+            else if (activeInteractable != null)
+            {
+                PickUpActiveItem();
+            }
+        }
+
+        private void PickUpActiveItem()
+        {
+            Item item = ((ItemPickup)activeInteractable).item;
+            if (item == null)
+                throw new Exception("Item pickup does not have an item assigned to it");
+            animatorHandler.PlayTargetAnimation("Pick Up", true);
+            playerInventory.PickUpItem(item);
+            Destroy(activeInteractable.gameObject);
+            RemoveInteractable(activeInteractable);
+            uiManager.OnItemPickUp(item);
         }
     }
 }
-

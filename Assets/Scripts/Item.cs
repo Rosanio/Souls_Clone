@@ -7,7 +7,7 @@ namespace SoulsLikeTutorial
     public class Item : ScriptableObject
     {
         [Header("ItemInformation")]
-        public Sprite itemIcon;
+        public Sprite icon;
         public string itemName;
     }
 }

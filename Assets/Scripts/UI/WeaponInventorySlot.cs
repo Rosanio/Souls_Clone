@@ -23,7 +23,7 @@ namespace SoulsLikeTutorial
         public void AddItem(WeaponItem newItem)
         {
             item = newItem;
-            icon.sprite = item.itemIcon;
+            icon.sprite = item.icon;
             icon.enabled = true;
             gameObject.SetActive(true);
         }

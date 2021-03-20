@@ -13,8 +13,8 @@ namespace SoulsLikeTutorial
         public void UpdateWeaponQuickSlotsUI(bool isLeft, WeaponItem weapon)
         {
             Image quickSlotImage = isLeft ? leftWeaponIcon : rightWeaponIcon;
-            quickSlotImage.sprite = weapon.itemIcon;
-            quickSlotImage.enabled = weapon.itemIcon != null;
+            quickSlotImage.sprite = weapon.icon;
+            quickSlotImage.enabled = weapon.icon != null;
         }
     }
 }

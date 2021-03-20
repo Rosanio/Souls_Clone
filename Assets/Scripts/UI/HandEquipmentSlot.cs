@@ -23,7 +23,7 @@ namespace SoulsLikeTutorial
         {
             if (newWeapon == null) return;
             weapon = newWeapon;
-            icon.sprite = weapon.itemIcon;
+            icon.sprite = weapon.icon;
             icon.enabled = true;
         }
 
