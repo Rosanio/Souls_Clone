@@ -34,5 +34,10 @@ namespace SoulsLikeTutorial
             if (!isInteracting)
                 stats.isStaggered = false;
         }
+
+        public virtual void TakeDamage(int damage, int poiseDamage)
+        {
+            stats.TakeDamage(damage, poiseDamage);
+        }
     }
 }

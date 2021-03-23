@@ -18,5 +18,7 @@ namespace SoulsLikeTutorial
 
         public int damage;
         public int poiseDamage;
+
+        public GameObject projectile;
     }
 }

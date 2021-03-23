@@ -4,16 +4,14 @@ using UnityEngine;
 
 namespace SoulsLikeTutorial
 {
-    public class IdleState : State
+    public class IdleStateRanged : State
     {
-        public LayerMask detectionLayer;
-
-        PursueTargetState pursueTargetState;
+        RangedCombatState rangedCombatState;
 
         protected override void Awake()
         {
             base.Awake();
-            pursueTargetState = transform.parent.GetComponentInChildren<PursueTargetState>();
+            rangedCombatState = transform.parent.GetComponentInChildren<RangedCombatState>();
         }
 
         public override State Tick()
@@ -22,7 +20,7 @@ namespace SoulsLikeTutorial
 
             if (enemyManager.currentTarget != null)
             {
-                return pursueTargetState;
+                return rangedCombatState;
             }
             return this;
         }

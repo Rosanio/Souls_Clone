@@ -33,8 +33,7 @@ namespace SoulsLikeTutorial
 
         public void Attack()
         {
-            animatorHandler.anim.SetFloat("Vertical", 0, 0.01f, Time.deltaTime);
-            animatorHandler.anim.SetFloat("Horizontal", 0, 0.01f, Time.deltaTime);
+            animatorHandler.StopMovement();
             animatorHandler.PlayTargetAnimation(currentAttack.actionAnimation, true);
             enemyManager.isPerformingAction = true;
             enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
@@ -113,6 +112,11 @@ namespace SoulsLikeTutorial
                     }
                 }
             }
+        }
+
+        public EnemyAttackAction GetLastAttack()
+        {
+            return lastAttack;
         }
     }
 }

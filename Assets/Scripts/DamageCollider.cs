@@ -4,13 +4,15 @@ namespace SoulsLikeTutorial
 {
     public class DamageCollider : MonoBehaviour
     {
+        public Team teamID;
+
         Collider damageCollider;
 
         private void Awake()
         {
             damageCollider = GetComponent<Collider>();
             damageCollider.gameObject.SetActive(true);
-            damageCollider.isTrigger = true; 
+            damageCollider.isTrigger = true;
             damageCollider.enabled = false;
         }
 
@@ -26,12 +28,37 @@ namespace SoulsLikeTutorial
 
         private void OnTriggerEnter(Collider collision)
         {
-            CharacterStats stats = collision.GetComponent<CharacterStats>();
+            int attackDamage;
+            int poiseDamage;
+            ProjectileBehavior projectile = null;
+
+            CharacterManager character = collision.GetComponent<CharacterManager>();
             Attacker attacker = GetComponentInParent<Attacker>();
-            if (stats != null)
+
+            Team teamID;
+
+            // If the attacker cannot be found, this is a projectile
+            if (attacker == null)
             {
-                stats.TakeDamage(attacker.GetCurrentAttackDamage(), attacker.GetCurrentAttackPoiseDamage());
+                projectile = GetComponent<ProjectileBehavior>();
+                attackDamage = projectile.damage;
+                poiseDamage = projectile.poiseDamage;
+                teamID = projectile.team;
             }
+            else
+            {
+                attackDamage = attacker.GetCurrentAttackDamage();
+                poiseDamage = attacker.GetCurrentAttackPoiseDamage();
+                teamID = GetComponentInParent<CharacterManager>().teamID;
+            }
+
+            if (character != null && character.teamID != teamID)
+            {
+                character.TakeDamage(attackDamage, poiseDamage);
+            }
+
+            if (projectile != null && (character == null || character.teamID != teamID))
+                Destroy(gameObject);
         }
     }
 }

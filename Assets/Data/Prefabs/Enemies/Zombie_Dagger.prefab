@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8860528944017841546}
   - component: {fileID: 8860528944017841545}
   m_Layer: 9
-  m_Name: Zombie
+  m_Name: Zombie_Dagger
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -114,7 +114,8 @@ MonoBehaviour:
   characterCollider: {fileID: 353000193032259120}
   characterCollisionBlockerCollider: {fileID: 8860528944953521976}
   isInteracting: 0
-  currentState: {fileID: 8860528944880065969}
+  stats: {fileID: 0}
+  currentState: {fileID: 0}
   isPerformingAction: 0
   currentTarget: {fileID: 0}
   navMeshAgent: {fileID: 0}

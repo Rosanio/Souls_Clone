@@ -46,6 +46,12 @@ namespace SoulsLikeTutorial
         {
             stats.isStaggered = false;
         }
+
+        public void StopMovement()
+        {
+            anim.SetFloat("Vertical", 0, 0.01f, Time.deltaTime);
+            anim.SetFloat("Horizontal", 0, 0.01f, Time.deltaTime);
+        }
     }
 }
 

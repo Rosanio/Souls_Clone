@@ -9,7 +9,11 @@ namespace SoulsLikeTutorial
         public WeaponItem rightHandWeapon;
         public WeaponItem leftHandWeapon;
 
+        public Transform projectileSpawnPoint;
+
         EnemyStats stats;
+        EnemyAttacker attacker;
+        EnemyManager enemyManager;
 
         private void Awake()
         {
@@ -27,6 +31,8 @@ namespace SoulsLikeTutorial
             }
 
             stats = GetComponentInParent<EnemyStats>();
+            attacker = GetComponentInParent<EnemyAttacker>();
+            enemyManager = GetComponentInParent<EnemyManager>();
         }
 
         private void Start()
@@ -84,6 +90,12 @@ namespace SoulsLikeTutorial
         public override void CloseDamageCollider()
         {
             rightHandDamageCollider.DisableDamageCollider();
+        }
+
+        public void SpawnProjectile()
+        {
+            GameObject projectile = Instantiate(attacker.GetLastAttack().projectile, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
+            projectile.GetComponent<ProjectileBehavior>().SetTeamID(enemyManager.teamID);
         }
     }
 }
