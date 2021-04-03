@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace SoulsLikeTutorial
@@ -31,9 +29,10 @@ namespace SoulsLikeTutorial
 
             // Activate the inventory menu manager game object, so that updates can be applied to it before
             // it is visible to the player. This prevents icons popping in or colors changing on the first frame
+
             inventoryMenuManager.gameObject.SetActive(true);
-            inventoryMenuManager.InitializeInventoryUI();
             inventoryMenuManager.gameObject.SetActive(false);
+
         }
 
         #region Menu Toggling
@@ -118,6 +117,16 @@ namespace SoulsLikeTutorial
         public void PerformOption1()
         {
             currentMenuManager.OnOption1();
+        }
+
+        public void TabLeft()
+        {
+            currentMenuManager.OnTabLeft();
+        }
+
+        public void TabRight()
+        {
+            currentMenuManager.OnTabRight();
         }
 
         public void NavigateLeft()

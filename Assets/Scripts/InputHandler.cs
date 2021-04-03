@@ -25,6 +25,7 @@ namespace SoulsLikeTutorial
         public bool inventory_Input;
         public bool lockOn_Input;
         public bool walk_Input;
+        public bool useItem_Input;
 
         // Menu navigation inputs
         public bool confirm_Input;
@@ -34,6 +35,8 @@ namespace SoulsLikeTutorial
         public bool navigateRight_Input;
         public bool navigateUp_Input;
         public bool navigateDown_Input;
+        public bool tabLeft_Input;
+        public bool tabRight_Input;
 
         public bool rollFlag;
         public bool sprintFlag;
@@ -48,6 +51,7 @@ namespace SoulsLikeTutorial
         PlayerInventory playerInventory;
         PlayerManager playerManager;
         PlayerWeaponSlotManager weaponSlotManager;
+        ConsumableSlotManager consumableSlotManager;
         UIManager uiManager;
         CameraHandler cameraHandler;
         AnimatorHandler animatorHandler;
@@ -64,6 +68,7 @@ namespace SoulsLikeTutorial
             playerInventory = GetComponent<PlayerInventory>();
             playerManager = GetComponent<PlayerManager>();
             weaponSlotManager = GetComponentInChildren<PlayerWeaponSlotManager>();
+            consumableSlotManager = GetComponentInChildren<ConsumableSlotManager>();
             uiManager = FindObjectOfType<UIManager>();
             cameraHandler = FindObjectOfType<CameraHandler>();
             animatorHandler = GetComponentInChildren<AnimatorHandler>();
@@ -87,6 +92,7 @@ namespace SoulsLikeTutorial
                 inputActions.PlayerActions.Inventory.performed += inputActions => inventory_Input = true;
                 inputActions.PlayerActions.LockOn.performed += inputActions => lockOn_Input = true;
                 inputActions.PlayerActions.TwoHand.performed += i => twoHand_Input = true;
+                inputActions.PlayerActions.UseItem.performed += i => useItem_Input = true;
 
                 inputActions.InventoryManagement.DPadRight.performed += i => switchRightWeapon_Input = true;
                 inputActions.InventoryManagement.DPadLeft.performed += i => switchLeftWeapon_Input = true;
@@ -98,6 +104,8 @@ namespace SoulsLikeTutorial
                 inputActions.MenuNavigation.NavigateRight.performed += i => navigateRight_Input = true;
                 inputActions.MenuNavigation.NavigateUp.performed += i => navigateUp_Input = true;
                 inputActions.MenuNavigation.NavigateDown.performed += i => navigateDown_Input = true;
+                inputActions.MenuNavigation.TabLeft.performed += i => tabLeft_Input = true;
+                inputActions.MenuNavigation.TabRight.performed += i => tabRight_Input = true;
             }
 
             inputActions.Enable();
@@ -111,21 +119,22 @@ namespace SoulsLikeTutorial
         public void TickInput(float delta)
         {
             MoveInput(delta);
+            HandleLockOnInput();
             if (!uiManager.isPaused)
             {
                 HandleWalkInput();
                 HandleRollInput(delta);
-                HandleAttackInput(delta);
+                HandleAttackInput();
                 HandleQuickSlotInput();
                 HandleInteractionInput();
                 HandleTwoHandInput();
+                HandleUseItemInput();
             }
             else
             {
                 HandleInventoryInputs();
             }
             HandleInventoryToggle();
-            HandleLockOnInput();
         }
 
         public void ResetInputFlags()
@@ -143,6 +152,7 @@ namespace SoulsLikeTutorial
             inventory_Input = false;
             lockOn_Input = false;
             twoHand_Input = false;
+            useItem_Input = false;
 
             // Menu Inputs
             confirm_Input = false;
@@ -152,6 +162,8 @@ namespace SoulsLikeTutorial
             navigateRight_Input = false;
             navigateUp_Input = false;
             navigateDown_Input = false;
+            tabLeft_Input = false;
+            tabRight_Input = false;
         }
 
         private void MoveInput(float delta)
@@ -192,7 +204,7 @@ namespace SoulsLikeTutorial
             }
         }
 
-        private void HandleAttackInput(float delta)
+        private void HandleAttackInput()
         {
             if (rhLightAttack_Input || rhStrongAttack_Input)
             {
@@ -240,6 +252,10 @@ namespace SoulsLikeTutorial
                 uiManager.GoBack();
             else if (menuOption1_Input)
                 uiManager.PerformOption1();
+            else if (tabLeft_Input)
+                uiManager.TabLeft();
+            else if (tabRight_Input)
+                uiManager.TabRight();
             else if (navigateLeft_Input)
                 uiManager.NavigateLeft();
             else if (navigateRight_Input)
@@ -308,14 +324,22 @@ namespace SoulsLikeTutorial
             {
                 twoHandFlag = !twoHandFlag;
 
-                if (twoHandFlag)
+                    weaponSlotManager.LoadWeaponOnSlot(playerInventory.rightWeapon, WeaponSlotID.RightHandSlot);
+                if (!twoHandFlag)
                 {
-                    weaponSlotManager.LoadWeaponOnSlot(playerInventory.rightWeapon, false);
+                    weaponSlotManager.LoadWeaponOnSlot(playerInventory.leftWeapon, WeaponSlotID.LeftHandSlot);
                 }
-                else
+            }
+        }
+
+        private void HandleUseItemInput()
+        {
+            if (useItem_Input)
+            {
+                if (!playerManager.isInteracting)
                 {
-                    weaponSlotManager.LoadWeaponOnSlot(playerInventory.rightWeapon, false);
-                    weaponSlotManager.LoadWeaponOnSlot(playerInventory.leftWeapon, true);
+                    ConsumableItem equippedConsumable = playerInventory.consumable;
+                    consumableSlotManager.UseConsumable(equippedConsumable);
                 }
             }
         }

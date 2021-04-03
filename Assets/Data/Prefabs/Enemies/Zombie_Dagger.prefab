@@ -115,7 +115,7 @@ MonoBehaviour:
   characterCollisionBlockerCollider: {fileID: 8860528944953521976}
   isInteracting: 0
   stats: {fileID: 0}
-  currentState: {fileID: 0}
+  currentState: {fileID: 8860528944880065969}
   isPerformingAction: 0
   currentTarget: {fileID: 0}
   navMeshAgent: {fileID: 0}
@@ -185,6 +185,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rightHandWeapon: {fileID: 11400000, guid: 2ffd194a6aac9d742bcfea03971d8e02, type: 2}
   leftHandWeapon: {fileID: 0}
+  projectileSpawnPoint: {fileID: 0}
 --- !u!1 &5878511801242665516
 GameObject:
   m_ObjectHideFlags: 0
@@ -512,9 +513,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0634ebf5118ff142a9b886f017e8873, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionLayer:
-    serializedVersion: 2
-    m_Bits: 512
 --- !u!1 &8860528944909782201
 GameObject:
   m_ObjectHideFlags: 0

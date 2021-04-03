@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 namespace SoulsLikeTutorial
@@ -17,6 +16,7 @@ namespace SoulsLikeTutorial
         PlayerManager playerManager;
         PlayerStats playerStats;
         InputHandler InputHandler;
+        PlayerInventory playerInventory;
 
         private void Awake()
         {
@@ -25,28 +25,35 @@ namespace SoulsLikeTutorial
             playerStats = GetComponentInParent<PlayerStats>();
             InputHandler = GetComponentInParent<InputHandler>();
             playerManager = GetComponentInParent<PlayerManager>();
+            playerInventory = GetComponentInParent<PlayerInventory>();
 
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
             foreach (WeaponHolderSlot weaponSlot in weaponHolderSlots)
             {
-                if (weaponSlot.isLeftHandSlot)
+                if (weaponSlot.slotID == WeaponSlotID.LeftHandSlot)
                 {
                     leftHandSlot = weaponSlot;
                 }
-                else if (weaponSlot.isRightHandSlot)
+                else if (weaponSlot.slotID == WeaponSlotID.RightHandSlot)
                 {
                     rightHandSlot = weaponSlot;
                 }
-                else if (weaponSlot.isBackSlot)
+                else if (weaponSlot.slotID == WeaponSlotID.BackSlot)
                 {
                     backSlot = weaponSlot;
                 }
             }
         }
 
-        public void LoadWeaponOnSlot(WeaponItem weaponItem, bool isLeft)
+        public void LoadRightWeapon()
         {
-            if (isLeft)
+            LoadWeaponOnSlot(playerInventory.rightWeapon, WeaponSlotID.RightHandSlot);
+        }
+
+        public void LoadWeaponOnSlot(WeaponItem weaponItem, WeaponSlotID slotID)
+        {
+            WeaponHolderSlot slot = GetWeaponHolderSlot(slotID);
+            if (slot.slotID == WeaponSlotID.LeftHandSlot)
             {
                 leftHandSlot.currentWeapon = weaponItem;
                 leftHandSlot.LoadWeaponModel(weaponItem);
@@ -67,12 +74,12 @@ namespace SoulsLikeTutorial
                 if (InputHandler.twoHandFlag)
                 {
                     backSlot.LoadWeaponModel(leftHandSlot.currentWeapon);
-                    leftHandSlot.UnloadWeaponAndDestroy();
+                    leftHandSlot.UnloadItemModelAndDestroy();
                     animator.CrossFade(weaponItem.Two_Hand_Idle, 0.2f);
                 }
                 else
                 {
-                    backSlot.UnloadWeaponAndDestroy();
+                    backSlot.UnloadItemModelAndDestroy();
                     animator.CrossFade("Both Arms Empty", 0.2f);
                     if (weaponItem != null && weaponItem.Right_Hand_Idle != null)
                     {
@@ -91,16 +98,21 @@ namespace SoulsLikeTutorial
             }
         }
 
+        public void UnloadWeaponOnSlot(WeaponSlotID slotID)
+        {
+            GetWeaponHolderSlot(slotID).UnloadItemModel();
+        }
+
         #region Handle Weapon's Damage Collider
 
         private void LoadLeftWeaponDamageCollider()
         {
-            leftHandDamageCollider = leftHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
+            leftHandDamageCollider = leftHandSlot.itemModel.GetComponentInChildren<DamageCollider>();
         }
 
         private void LoadRightWeaponDamageCollider()
         {
-            rightHandDamageCollider = rightHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
+            rightHandDamageCollider = rightHandSlot.itemModel.GetComponentInChildren<DamageCollider>();
         }
 
         public override void OpenDamageCollider()
@@ -134,5 +146,20 @@ namespace SoulsLikeTutorial
             playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.heavyAttackMultiplier));
         }
         #endregion
+
+        private WeaponHolderSlot GetWeaponHolderSlot(WeaponSlotID slotID)
+        {
+            switch(slotID)
+            {
+                case WeaponSlotID.RightHandSlot:
+                    return rightHandSlot;
+                case WeaponSlotID.LeftHandSlot:
+                    return leftHandSlot;
+                case WeaponSlotID.BackSlot:
+                    return backSlot;
+                default:
+                    throw new Exception("Invalid weapon slot ID");
+            }
+        }
     }
 }

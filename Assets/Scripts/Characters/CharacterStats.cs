@@ -11,7 +11,7 @@ namespace SoulsLikeTutorial
 
         public int healthLevel = 10;
         public int maxHealth;
-        public int currentHealth;
+        public float currentHealth;
 
         public int staminaLevel = 10;
         public float maxStamina;
@@ -23,6 +23,9 @@ namespace SoulsLikeTutorial
 
         public bool isStaggered;
         [HideInInspector] public bool isDead;
+
+        float healthRegenerationRate;
+        float healingTimer = 0;
 
         protected virtual void Start()
         {
@@ -38,9 +41,7 @@ namespace SoulsLikeTutorial
 
             weaponSlotManager.CloseDamageCollider();
 
-            currentHealth -= damage;
-            if (healthBar)
-                healthBar.SetValue(currentHealth);
+            UpdateHealth(-damage);
 
             if (!isStaggered)
                 currentPoiseBuildUp += poiseDamage;
@@ -64,6 +65,18 @@ namespace SoulsLikeTutorial
             {
                 currentPoiseBuildUp -= poiseRegenerationAmount * Time.deltaTime;
             }
+
+            if (healingTimer > 0)
+            {
+                UpdateHealth(healthRegenerationRate * Time.deltaTime);
+                healingTimer -= Time.deltaTime;
+            }
+        }
+
+        public virtual void HealOverTime(int healingAmount, float seconds)
+        {
+            healthRegenerationRate = healingAmount / seconds;
+            healingTimer = seconds;
         }
 
         public void SetTargetHealthBar(StatMeter targetHealthBar)
@@ -76,6 +89,17 @@ namespace SoulsLikeTutorial
         private void SetMaxHealthFromHealthLevel()
         {
             maxHealth = healthLevel * 10;
+        }
+
+        private void UpdateHealth(float healthDelta)
+        {
+            currentHealth += healthDelta;
+            if (currentHealth > maxHealth)
+                currentHealth = maxHealth;
+            if (currentHealth < 0)
+                currentHealth = 0;
+            if (healthBar)
+                healthBar.SetValue(currentHealth);
         }
     }
 }

@@ -61,7 +61,6 @@ namespace SoulsLikeTutorial
 
         public void HandleHeavyAttack(WeaponItem weapon)
         {
-            print("Heavy attack");
             HeavyAttack1(weapon);
         }
 

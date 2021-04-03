@@ -20,11 +20,11 @@ namespace SoulsLikeTutorial
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
             foreach(WeaponHolderSlot weaponSlot in weaponHolderSlots)
             {
-                if (weaponSlot.isLeftHandSlot)
+                if (weaponSlot.slotID == WeaponSlotID.LeftHandSlot)
                 {
                     leftHandSlot = weaponSlot;
                 }
-                else if (weaponSlot.isRightHandSlot)
+                else if (weaponSlot.slotID == WeaponSlotID.RightHandSlot)
                 {
                     rightHandSlot = weaponSlot;
                 }
@@ -72,11 +72,11 @@ namespace SoulsLikeTutorial
         {
             if (isLeft)
             {
-                leftHandDamageCollider = leftHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
+                leftHandDamageCollider = leftHandSlot.itemModel.GetComponentInChildren<DamageCollider>();
             }
             else
             {
-                rightHandDamageCollider = rightHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
+                rightHandDamageCollider = rightHandSlot.itemModel.GetComponentInChildren<DamageCollider>();
             }
         }
 
@@ -99,4 +99,3 @@ namespace SoulsLikeTutorial
         }
     }
 }
-

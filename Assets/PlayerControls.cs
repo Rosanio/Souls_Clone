@@ -209,6 +209,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""UseItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""30de145f-bd51-4cb9-83cb-aefcd7849f33"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -363,6 +371,17 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""TwoHand"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""96509933-f14c-4a5d-8578-5fbcd5d89d8c"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UseItem"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -555,6 +574,22 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Tab Left"",
+                    ""type"": ""Button"",
+                    ""id"": ""c0b9708a-5468-4309-8b09-75eac96560ac"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Tab Right"",
+                    ""type"": ""Button"",
+                    ""id"": ""ac6bc6f6-090a-4203-9fdc-5b03095101a4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -634,6 +669,72 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""Menu Option 1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Button With One Modifier"",
+                    ""id"": ""3e9d9b6a-9ce0-4b2b-9e14-cfae01b7d870"",
+                    ""path"": ""ButtonWithOneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tab Left"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""5a542ae3-6535-418b-ba4f-63ced0f6628e"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tab Left"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""button"",
+                    ""id"": ""c10efcdc-50d8-4db2-bae4-5bc30d61d72f"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tab Left"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Button With One Modifier"",
+                    ""id"": ""02df503d-325e-477a-846a-002637c4dfce"",
+                    ""path"": ""ButtonWithOneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tab Right"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""0cb02a4a-8258-4182-b718-46a7c0a46ea7"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tab Right"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""button"",
+                    ""id"": ""e554b704-cf46-47d4-93fe-cd995e104d25"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tab Right"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -656,6 +757,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_PlayerActions_LockOn = m_PlayerActions.FindAction("LockOn", throwIfNotFound: true);
         m_PlayerActions_Walk = m_PlayerActions.FindAction("Walk", throwIfNotFound: true);
         m_PlayerActions_TwoHand = m_PlayerActions.FindAction("TwoHand", throwIfNotFound: true);
+        m_PlayerActions_UseItem = m_PlayerActions.FindAction("UseItem", throwIfNotFound: true);
         // Inventory Management
         m_InventoryManagement = asset.FindActionMap("Inventory Management", throwIfNotFound: true);
         m_InventoryManagement_DPadUp = m_InventoryManagement.FindAction("D-Pad Up", throwIfNotFound: true);
@@ -671,6 +773,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_MenuNavigation_NavigateDown = m_MenuNavigation.FindAction("Navigate Down", throwIfNotFound: true);
         m_MenuNavigation_Back = m_MenuNavigation.FindAction("Back", throwIfNotFound: true);
         m_MenuNavigation_MenuOption1 = m_MenuNavigation.FindAction("Menu Option 1", throwIfNotFound: true);
+        m_MenuNavigation_TabLeft = m_MenuNavigation.FindAction("Tab Left", throwIfNotFound: true);
+        m_MenuNavigation_TabRight = m_MenuNavigation.FindAction("Tab Right", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -778,6 +882,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerActions_LockOn;
     private readonly InputAction m_PlayerActions_Walk;
     private readonly InputAction m_PlayerActions_TwoHand;
+    private readonly InputAction m_PlayerActions_UseItem;
     public struct PlayerActionsActions
     {
         private @PlayerControls m_Wrapper;
@@ -791,6 +896,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @LockOn => m_Wrapper.m_PlayerActions_LockOn;
         public InputAction @Walk => m_Wrapper.m_PlayerActions_Walk;
         public InputAction @TwoHand => m_Wrapper.m_PlayerActions_TwoHand;
+        public InputAction @UseItem => m_Wrapper.m_PlayerActions_UseItem;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -827,6 +933,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @TwoHand.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnTwoHand;
                 @TwoHand.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnTwoHand;
                 @TwoHand.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnTwoHand;
+                @UseItem.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnUseItem;
+                @UseItem.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnUseItem;
+                @UseItem.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnUseItem;
             }
             m_Wrapper.m_PlayerActionsActionsCallbackInterface = instance;
             if (instance != null)
@@ -858,6 +967,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @TwoHand.started += instance.OnTwoHand;
                 @TwoHand.performed += instance.OnTwoHand;
                 @TwoHand.canceled += instance.OnTwoHand;
+                @UseItem.started += instance.OnUseItem;
+                @UseItem.performed += instance.OnUseItem;
+                @UseItem.canceled += instance.OnUseItem;
             }
         }
     }
@@ -930,6 +1042,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_MenuNavigation_NavigateDown;
     private readonly InputAction m_MenuNavigation_Back;
     private readonly InputAction m_MenuNavigation_MenuOption1;
+    private readonly InputAction m_MenuNavigation_TabLeft;
+    private readonly InputAction m_MenuNavigation_TabRight;
     public struct MenuNavigationActions
     {
         private @PlayerControls m_Wrapper;
@@ -941,6 +1055,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @NavigateDown => m_Wrapper.m_MenuNavigation_NavigateDown;
         public InputAction @Back => m_Wrapper.m_MenuNavigation_Back;
         public InputAction @MenuOption1 => m_Wrapper.m_MenuNavigation_MenuOption1;
+        public InputAction @TabLeft => m_Wrapper.m_MenuNavigation_TabLeft;
+        public InputAction @TabRight => m_Wrapper.m_MenuNavigation_TabRight;
         public InputActionMap Get() { return m_Wrapper.m_MenuNavigation; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -971,6 +1087,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @MenuOption1.started -= m_Wrapper.m_MenuNavigationActionsCallbackInterface.OnMenuOption1;
                 @MenuOption1.performed -= m_Wrapper.m_MenuNavigationActionsCallbackInterface.OnMenuOption1;
                 @MenuOption1.canceled -= m_Wrapper.m_MenuNavigationActionsCallbackInterface.OnMenuOption1;
+                @TabLeft.started -= m_Wrapper.m_MenuNavigationActionsCallbackInterface.OnTabLeft;
+                @TabLeft.performed -= m_Wrapper.m_MenuNavigationActionsCallbackInterface.OnTabLeft;
+                @TabLeft.canceled -= m_Wrapper.m_MenuNavigationActionsCallbackInterface.OnTabLeft;
+                @TabRight.started -= m_Wrapper.m_MenuNavigationActionsCallbackInterface.OnTabRight;
+                @TabRight.performed -= m_Wrapper.m_MenuNavigationActionsCallbackInterface.OnTabRight;
+                @TabRight.canceled -= m_Wrapper.m_MenuNavigationActionsCallbackInterface.OnTabRight;
             }
             m_Wrapper.m_MenuNavigationActionsCallbackInterface = instance;
             if (instance != null)
@@ -996,6 +1118,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @MenuOption1.started += instance.OnMenuOption1;
                 @MenuOption1.performed += instance.OnMenuOption1;
                 @MenuOption1.canceled += instance.OnMenuOption1;
+                @TabLeft.started += instance.OnTabLeft;
+                @TabLeft.performed += instance.OnTabLeft;
+                @TabLeft.canceled += instance.OnTabLeft;
+                @TabRight.started += instance.OnTabRight;
+                @TabRight.performed += instance.OnTabRight;
+                @TabRight.canceled += instance.OnTabRight;
             }
         }
     }
@@ -1017,6 +1145,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnLockOn(InputAction.CallbackContext context);
         void OnWalk(InputAction.CallbackContext context);
         void OnTwoHand(InputAction.CallbackContext context);
+        void OnUseItem(InputAction.CallbackContext context);
     }
     public interface IInventoryManagementActions
     {
@@ -1034,5 +1163,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnNavigateDown(InputAction.CallbackContext context);
         void OnBack(InputAction.CallbackContext context);
         void OnMenuOption1(InputAction.CallbackContext context);
+        void OnTabLeft(InputAction.CallbackContext context);
+        void OnTabRight(InputAction.CallbackContext context);
     }
 }

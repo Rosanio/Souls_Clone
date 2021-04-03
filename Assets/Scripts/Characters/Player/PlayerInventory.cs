@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace SoulsLikeTutorial
@@ -8,23 +6,30 @@ namespace SoulsLikeTutorial
     public class PlayerInventory : MonoBehaviour
     {
         PlayerWeaponSlotManager weaponSlotManager;
+        ConsumableSlotManager consumableSlotManager;
 
         public WeaponItem rightWeapon;
         public WeaponItem leftWeapon;
+        public ConsumableItem consumable;
 
         public WeaponItem unarmedWeapon;
 
         public WeaponItem[] weaponsInRightHandSlots = new WeaponItem[2];
         public WeaponItem[] weaponsInLeftHandSlots = new WeaponItem[2];
 
+        public ConsumableItem[] equippedConsumables = new ConsumableItem[8];
+
         public int currentRightWeaponIndex = 0;
         public int currentLeftWeaponIndex = 0;
+        public int currentConsumableIndex = 0;
 
         public List<WeaponItem> weaponsInInventory;
+        public List<ConsumableItem> consumablesInInventory;
 
         private void Awake()
         {
             weaponSlotManager = GetComponentInChildren<PlayerWeaponSlotManager>();
+            consumableSlotManager = GetComponentInChildren<ConsumableSlotManager>();
         }
 
         private void Start()
@@ -32,8 +37,8 @@ namespace SoulsLikeTutorial
             rightWeapon = weaponsInRightHandSlots[0] == null ? unarmedWeapon : weaponsInRightHandSlots[0];
             leftWeapon = weaponsInLeftHandSlots[0] ==  null ? unarmedWeapon : weaponsInLeftHandSlots[0];
 
-            weaponSlotManager.LoadWeaponOnSlot(rightWeapon, false);
-            weaponSlotManager.LoadWeaponOnSlot(leftWeapon, true);
+            weaponSlotManager.LoadWeaponOnSlot(rightWeapon, WeaponSlotID.RightHandSlot);
+            weaponSlotManager.LoadWeaponOnSlot(leftWeapon, WeaponSlotID.LeftHandSlot);
         }
 
         public void ChangeRightWeapon()
@@ -43,7 +48,7 @@ namespace SoulsLikeTutorial
             {
                 SelectNextRightWeapon();
             }
-            weaponSlotManager.LoadWeaponOnSlot(rightWeapon, false);
+            weaponSlotManager.LoadWeaponOnSlot(rightWeapon, WeaponSlotID.RightHandSlot);
         }
 
         private void SelectNextRightWeapon()
@@ -64,7 +69,7 @@ namespace SoulsLikeTutorial
             {
                 SelectNextLeftWeapon();
             }
-            weaponSlotManager.LoadWeaponOnSlot(leftWeapon, true);
+            weaponSlotManager.LoadWeaponOnSlot(leftWeapon, WeaponSlotID.LeftHandSlot);
         }
 
         private void SelectNextLeftWeapon()
@@ -79,36 +84,61 @@ namespace SoulsLikeTutorial
         }
 
 
-        public void UpdateWeaponSlots()
+        private void UpdateWeaponSlots()
         {
             leftWeapon = weaponsInLeftHandSlots[currentLeftWeaponIndex] != null ? weaponsInLeftHandSlots[currentLeftWeaponIndex] : unarmedWeapon;
             rightWeapon = weaponsInRightHandSlots[currentRightWeaponIndex] != null ? weaponsInRightHandSlots[currentRightWeaponIndex] : unarmedWeapon;
-            weaponSlotManager.LoadWeaponOnSlot(rightWeapon, false);
-            weaponSlotManager.LoadWeaponOnSlot(leftWeapon, true);
+            weaponSlotManager.LoadWeaponOnSlot(rightWeapon, WeaponSlotID.RightHandSlot);
+            weaponSlotManager.LoadWeaponOnSlot(leftWeapon, WeaponSlotID.LeftHandSlot);
+        }
+
+        private void UpdateConsumableSlots()
+        {
+            consumable = equippedConsumables[currentConsumableIndex];
+            consumableSlotManager.LoadConsumableOnQuickSlot(consumable);
         }
 
         public WeaponItem GetEquippedWeapon(EquipmentSlotEnum equipmentSlotID)
         {
-            Tuple<WeaponItem[], int> equipmentSlot = GetEquippedWeaponSlot(equipmentSlotID);
-            return equipmentSlot.Item1[equipmentSlot.Item2];
-        }
-
-        public Tuple<WeaponItem[], int> GetEquippedWeaponSlot(EquipmentSlotEnum equipmentSlotID)
-        {
             switch (equipmentSlotID)
             {
                 case EquipmentSlotEnum.RightHandSlot01:
-                    return new Tuple<WeaponItem[], int>(weaponsInRightHandSlots, 0);
+                    return weaponsInRightHandSlots[0];
                 case EquipmentSlotEnum.RightHandSlot02:
-                    return new Tuple<WeaponItem[], int>(weaponsInRightHandSlots, 1);
+                    return weaponsInRightHandSlots[1];
                 case EquipmentSlotEnum.RightHandSlot03:
-                    return new Tuple<WeaponItem[], int>(weaponsInRightHandSlots, 2);
+                    return weaponsInRightHandSlots[2];
                 case EquipmentSlotEnum.LeftHandSlot01:
-                    return new Tuple<WeaponItem[], int>(weaponsInLeftHandSlots, 0);
+                    return weaponsInLeftHandSlots[0];
                 case EquipmentSlotEnum.LeftHandSlot02:
-                    return new Tuple<WeaponItem[], int>(weaponsInLeftHandSlots, 1);
+                    return weaponsInLeftHandSlots[1];
                 case EquipmentSlotEnum.LeftHandSlot03:
-                    return new Tuple<WeaponItem[], int>(weaponsInLeftHandSlots, 2);
+                    return weaponsInLeftHandSlots[2];
+                default:
+                    return null;
+            }
+        }
+
+        public ConsumableItem GetEquippedConsumable(EquipmentSlotEnum equipmentSlotID)
+        {
+            switch(equipmentSlotID)
+            {
+                case EquipmentSlotEnum.ConsumableSlot01:
+                    return equippedConsumables[0];
+                case EquipmentSlotEnum.ConsumableSlot02:
+                    return equippedConsumables[1];
+                case EquipmentSlotEnum.ConsumableSlot03:
+                    return equippedConsumables[2];
+                case EquipmentSlotEnum.ConsumableSlot04:
+                    return equippedConsumables[3];
+                case EquipmentSlotEnum.ConsumableSlot05:
+                    return equippedConsumables[4];
+                case EquipmentSlotEnum.ConsumableSlot06:
+                    return equippedConsumables[5];
+                case EquipmentSlotEnum.ConsumableSlot07:
+                    return equippedConsumables[6];
+                case EquipmentSlotEnum.ConsumableSlot08:
+                    return equippedConsumables[7];
                 default:
                     return null;
             }
@@ -116,32 +146,118 @@ namespace SoulsLikeTutorial
 
         public void EquipWeapon(WeaponItem weapon, EquipmentSlotEnum equipmentSlotID)
         {
-            Tuple<WeaponItem[], int> equipmentSlot = GetEquippedWeaponSlot(equipmentSlotID);
-            if (equipmentSlot.Item1[equipmentSlot.Item2] != null)
-                weaponsInInventory.Add(equipmentSlot.Item1[equipmentSlot.Item2]);
-
-            equipmentSlot.Item1[equipmentSlot.Item2] = weapon;
-            weaponsInInventory.Remove(weapon);
+            MoveWeaponBackToInventory(equipmentSlotID);
+            SetWeaponInSlot(weapon, equipmentSlotID);
 
             UpdateWeaponSlots();
         }
 
         public void UnequipWeapon(EquipmentSlotEnum equipmentSlotID)
         {
-            Tuple<WeaponItem[], int> equipmentSlot = GetEquippedWeaponSlot(equipmentSlotID);
-            if (equipmentSlot.Item1[equipmentSlot.Item2] != null)
-                weaponsInInventory.Add(equipmentSlot.Item1[equipmentSlot.Item2]);
-            equipmentSlot.Item1[equipmentSlot.Item2] = null;
+            MoveWeaponBackToInventory(equipmentSlotID);
+            SetWeaponInSlot(null, equipmentSlotID);
 
             UpdateWeaponSlots();
         }
 
+        public void EquipConsumable(ConsumableItem consumable, EquipmentSlotEnum equipmentSlotID)
+        {
+            MoveConsumableBackToInventory(equipmentSlotID);
+            SetConsumableInSlot(consumable, equipmentSlotID);
+
+            UpdateConsumableSlots();
+        }
+
+        public void UnequipConsumable(EquipmentSlotEnum equipmentSlotID)
+        {
+            MoveConsumableBackToInventory(equipmentSlotID);
+            SetConsumableInSlot(null, equipmentSlotID);
+
+            UpdateConsumableSlots();
+        }
+
         public void PickUpItem(Item item)
         {
-            if (item is WeaponItem)
+            if (item is WeaponItem weapon)
+                weaponsInInventory.Add(weapon);
+            else if (item is ConsumableItem consumable)
+                consumablesInInventory.Add(consumable);
+        }
+
+        private void MoveWeaponBackToInventory(EquipmentSlotEnum equipmentSlotID)
+        {
+            WeaponItem equippedWeapon = GetEquippedWeapon(equipmentSlotID);
+            if (equippedWeapon != null)
+                weaponsInInventory.Add(equippedWeapon);
+        }
+
+        private void MoveConsumableBackToInventory(EquipmentSlotEnum equipmentSlotID)
+        {
+            ConsumableItem equippedConsumable = GetEquippedConsumable(equipmentSlotID);
+            if (equippedConsumable != null)
+                consumablesInInventory.Add(equippedConsumable);
+        }
+
+        private void SetWeaponInSlot(WeaponItem weapon, EquipmentSlotEnum equipmentSlotID)
+        {
+            switch (equipmentSlotID)
             {
-                weaponsInInventory.Add((WeaponItem)item);
+                case EquipmentSlotEnum.RightHandSlot01:
+                    weaponsInRightHandSlots[0] = weapon;
+                    break;
+                case EquipmentSlotEnum.RightHandSlot02:
+                    weaponsInRightHandSlots[1] = weapon;
+                    break;
+                case EquipmentSlotEnum.RightHandSlot03:
+                    weaponsInRightHandSlots[2] = weapon;
+                    break;
+                case EquipmentSlotEnum.LeftHandSlot01:
+                    weaponsInLeftHandSlots[0] = weapon;
+                    break;
+                case EquipmentSlotEnum.LeftHandSlot02:
+                    weaponsInLeftHandSlots[1] = weapon;
+                    break;
+                case EquipmentSlotEnum.LeftHandSlot03:
+                    weaponsInLeftHandSlots[2] = weapon;
+                    break;
             }
+
+            if (weapon != null)
+                weaponsInInventory.Remove(weapon);
+        }
+
+        private void SetConsumableInSlot(ConsumableItem consumable, EquipmentSlotEnum equipmentSlotID)
+        {
+            switch (equipmentSlotID)
+            {
+                case EquipmentSlotEnum.ConsumableSlot01:
+                    equippedConsumables[0] = consumable;
+                    break;
+                case EquipmentSlotEnum.ConsumableSlot02:
+                    equippedConsumables[1] = consumable;
+                    break;
+                case EquipmentSlotEnum.ConsumableSlot03:
+                    equippedConsumables[2] = consumable;
+                    break;
+                case EquipmentSlotEnum.ConsumableSlot04:
+                    equippedConsumables[3] = consumable;
+                    break;
+                case EquipmentSlotEnum.ConsumableSlot05:
+                    equippedConsumables[4] = consumable;
+                    break;
+                case EquipmentSlotEnum.ConsumableSlot06:
+                    equippedConsumables[5] = consumable;
+                    break;
+                case EquipmentSlotEnum.ConsumableSlot07:
+                    equippedConsumables[6] = consumable;
+                    break;
+                case EquipmentSlotEnum.ConsumableSlot08:
+                    equippedConsumables[7] = consumable;
+                    break;
+            }
+
+            if (consumable != null)
+                consumablesInInventory.Remove(consumable);
         }
     }
 }
