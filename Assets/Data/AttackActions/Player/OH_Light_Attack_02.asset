@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 033ad2415ae4ec44bb741a1f7bedbeb4, type: 3}
   m_Name: OH_Light_Attack_02
   m_EditorClassIdentifier: 
-  actionAnimation: OH_Light_Attack_2
+  actionAnimation: HorizontalBackhandSlash01
   damageMultiplier: 1
   poiseDamageMultiplier: 1

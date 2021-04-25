@@ -115,32 +115,33 @@ namespace SoulsLikeTutorial
             if (inputHandler.rollFlag)
                 return;
 
-            if (playerManager.isInteracting)
-                return;
-
-            moveDirection = cameraObject.forward * inputHandler.vertical;
-            moveDirection += cameraObject.right * inputHandler.horizontal;
-            moveDirection.y = 0;
-            moveDirection.Normalize();
-
-            float speed = movementSpeed;
-            if (inputHandler.sprintFlag)
-                speed = sprintSpeed;
-            else if (inputHandler.walkFlag)
-                speed = walkSpeed;
-            moveDirection *= speed;
-
-            Vector3 projectedVelocity = Vector3.ProjectOnPlane(moveDirection, normalVector);
-            rigidbody.velocity = projectedVelocity;
-
-            if (inputHandler.lockOnFlag && !inputHandler.sprintFlag)
+            if (!playerManager.isInteracting)
             {
-                animatorHandler.UpdateAnimatorValues(inputHandler.vertical, inputHandler.horizontal, inputHandler.sprintFlag, inputHandler.walkFlag);
+                moveDirection = cameraObject.forward * inputHandler.vertical;
+                moveDirection += cameraObject.right * inputHandler.horizontal;
+                moveDirection.y = 0;
+                moveDirection.Normalize();
+
+                float speed = movementSpeed;
+                if (inputHandler.sprintFlag)
+                    speed = sprintSpeed;
+                else if (inputHandler.walkFlag)
+                    speed = walkSpeed;
+                moveDirection *= speed;
+
+                Vector3 projectedVelocity = Vector3.ProjectOnPlane(moveDirection, normalVector);
+                rigidbody.velocity = projectedVelocity;
+
+                if (inputHandler.lockOnFlag && !inputHandler.sprintFlag)
+                {
+                    animatorHandler.UpdateAnimatorValues(inputHandler.vertical, inputHandler.horizontal, inputHandler.sprintFlag, inputHandler.walkFlag);
+                }
+                else
+                {
+                    animatorHandler.UpdateAnimatorValues(inputHandler.moveAmount, 0, inputHandler.sprintFlag, inputHandler.walkFlag);
+                }
             }
-            else
-            {
-                animatorHandler.UpdateAnimatorValues(inputHandler.moveAmount, 0, inputHandler.sprintFlag, inputHandler.walkFlag);
-            }
+
             if (animatorHandler.canRotate)
             {
                 HandleRotation(delta);
