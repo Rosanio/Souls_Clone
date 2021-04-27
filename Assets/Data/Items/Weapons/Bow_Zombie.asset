@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bec957cd96ae5d64da93f13c3bed6760, type: 3}
+  m_Name: Bow_Zombie
+  m_EditorClassIdentifier: 
+  modelPrefab: {fileID: 6723958012828476966, guid: 40975d7f7328d754f9aa5bc6caec3d50,
+    type: 3}
+  icon: {fileID: 0}
+  itemName: Bow
+  isUnarmed: 0
+  Right_Hand_Idle: 
+  Left_Hand_Idle: 
+  Two_Hand_Idle: 
+  OH_Light_Attack_1: {fileID: 0}
+  OH_Light_Attack_2: {fileID: 0}
+  OH_Heavy_Attack_1: {fileID: 0}
+  OH_Heavy_Attack_2: {fileID: 0}
+  TH_Light_Attack_1: {fileID: 0}
+  TH_Light_Attack_2: {fileID: 0}
+  TH_Heavy_Attack_1: {fileID: 0}
+  TH_Heavy_Attack_2: {fileID: 0}
+  baseDamage: 0
+  basePoiseDamage: 0
+  baseStamina: 0
+  lightAttackMultiplier: 0
+  heavyAttackMultiplier: 0

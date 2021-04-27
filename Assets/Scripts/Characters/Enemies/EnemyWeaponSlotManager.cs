@@ -9,8 +9,6 @@ namespace SoulsLikeTutorial
         public WeaponItem rightHandWeapon;
         public WeaponItem leftHandWeapon;
 
-        public Transform projectileSpawnPoint;
-
         EnemyStats stats;
         EnemyAttacker attacker;
         EnemyManager enemyManager;
@@ -89,13 +87,32 @@ namespace SoulsLikeTutorial
 
         public override void CloseDamageCollider()
         {
-            rightHandDamageCollider.DisableDamageCollider();
+            if (rightHandDamageCollider)
+                rightHandDamageCollider.DisableDamageCollider();
         }
 
         public void SpawnProjectile()
         {
-            GameObject projectile = Instantiate(attacker.GetLastAttack().projectile, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
-            projectile.GetComponent<ProjectileBehavior>().SetTeamID(enemyManager.teamID);
+            if (stats.isDead || stats.isStaggered) return;
+            GameObject projectile = Instantiate(attacker.GetLastAttack().projectile, rightHandSlot.transform);
+            projectile.GetComponentInChildren<ProjectileBehavior>().SetTeamID(enemyManager.teamID);
+            projectile.GetComponentInChildren<ProjectileBehavior>().SetTarget(enemyManager.currentTarget.transform);
+        }
+
+        public void FireProjectile()
+        {
+            ProjectileBehavior projectile = rightHandSlot.GetComponentInChildren<ProjectileBehavior>();
+            if (projectile != null)
+                projectile.Fire();
+        }
+
+        public void DespawnPorjectile()
+        {
+            ProjectileBehavior projectile = rightHandSlot.GetComponentInChildren<ProjectileBehavior>();
+            if (projectile != null)
+            {
+                Destroy(projectile.transform.parent.parent.gameObject);
+            }
         }
     }
 }
