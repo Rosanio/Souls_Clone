@@ -14,6 +14,8 @@ namespace SoulsLikeTutorial
         PlayerStats playerStats;
         PlayerWeaponSlotManager weaponSlotManager;
         public PlayerAttackAction lastAttack;
+        PlayerManager playerManager;
+        BlockingCollider blockingCollider;
 
         private void Awake()
         {
@@ -21,6 +23,8 @@ namespace SoulsLikeTutorial
             inputHandler = GetComponent<InputHandler>();
             playerStats = GetComponent<PlayerStats>();
             weaponSlotManager = GetComponentInChildren<PlayerWeaponSlotManager>();
+            playerManager = GetComponent<PlayerManager>();
+            blockingCollider = GetComponentInChildren<BlockingCollider>();
         }
 
         public override int GetCurrentAttackDamage()
@@ -64,6 +68,20 @@ namespace SoulsLikeTutorial
             HeavyAttack1(weapon);
         }
 
+        public void HandleBlock(WeaponItem weapon)
+        {
+            if (playerManager.isBlocking || playerManager.isInteracting) return;
+
+            animatorHandler.PlayTargetAnimation("Block_Idle", false, true);
+            EnableBlockingCollider(weapon);
+            playerManager.isBlocking = true;
+        }
+
+        public void DisableBlockingCollider()
+        {
+            blockingCollider.DisableCollider();
+        }
+
         private void LightAttack1(WeaponItem weapon)
         {
             PlayerAttackAction attack = inputHandler.twoHandFlag ? weapon.TH_Light_Attack_1 : weapon.OH_Light_Attack_1;
@@ -94,8 +112,14 @@ namespace SoulsLikeTutorial
             if (attack.actionAnimation == string.Empty)
                 throw new Exception("Attack with missing animation called: " + attack);
             weaponSlotManager.attackingWeapon = weapon;
-            animatorHandler.PlayTargetAnimation(attack.actionAnimation, true);
+            animatorHandler.PlayTargetAnimation(attack.actionAnimation, true, true);
             lastAttack = attack;
+        }
+
+        private void EnableBlockingCollider(WeaponItem weapon)
+        {
+            blockingCollider.SetColliderDamageAbsorbtion(weapon);
+            blockingCollider.EnableCollider();
         }
     }
 }

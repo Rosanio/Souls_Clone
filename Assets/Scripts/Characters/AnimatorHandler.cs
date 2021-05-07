@@ -15,11 +15,12 @@ namespace SoulsLikeTutorial
             stats = GetComponentInParent<CharacterStats>();
         }
 
-        public void PlayTargetAnimation(string targetAnim, bool isInteracting, float crossFadeTime = 0.2f)
+        public void PlayTargetAnimation(string targetAnim, bool isInteracting, bool enableRotation = false)
         {
             anim.applyRootMotion = isInteracting;
             anim.SetBool("isInteracting", isInteracting);
-            anim.CrossFade(targetAnim, crossFadeTime);
+            anim.SetBool("canRotate", enableRotation);
+            anim.CrossFade(targetAnim, 0.2f);
         }
 
         public virtual void EnableRotation()

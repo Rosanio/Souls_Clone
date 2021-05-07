@@ -14,6 +14,7 @@ namespace SoulsLikeTutorial
         public CapsuleCollider characterCollisionBlockerCollider;
 
         public bool isInteracting;
+        public bool isBlocking;
 
         public CharacterStats stats;
         protected AnimatorHandler animatorHandler;
@@ -35,8 +36,17 @@ namespace SoulsLikeTutorial
                 stats.isStaggered = false;
         }
 
-        public virtual void TakeDamage(int damage, int poiseDamage)
+        public virtual void TakeDamage(int damage, int poiseDamage, float? attackAngle = null)
         {
+            BlockingCollider shield = transform.GetComponentInChildren<BlockingCollider>();
+            if (isBlocking && shield != null && attackAngle > 90)
+            {
+                damage = Mathf.RoundToInt(damage - (damage * shield.blockingPhysicalDamageAbsorbtion) / 100);
+                int staminaDamage = poiseDamage * (100 / shield.stability);
+                stats.TakeStaminaDamage(staminaDamage);
+                poiseDamage = 0;
+                animatorHandler.PlayTargetAnimation("Block Impact", true);
+            }
             stats.TakeDamage(damage, poiseDamage);
         }
     }

@@ -213,7 +213,7 @@ namespace SoulsLikeTutorial
                     }
                     else
                     {
-                        animatorHandler.PlayTargetAnimation("Empty", false);
+                        animatorHandler.PlayTargetAnimation("Empty", false, true);
                     }
 
                     inAirTimer = 0;

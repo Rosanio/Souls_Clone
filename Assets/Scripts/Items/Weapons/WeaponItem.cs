@@ -30,6 +30,10 @@ namespace SoulsLikeTutorial
         public int baseDamage;
         public int basePoiseDamage;
 
+        [Header("Absorbtion")]
+        public float physicalDamageAbsorbtion;
+        public int stability;
+
         [Header("Stamina Costs")]
         public int baseStamina;
         public float lightAttackMultiplier;

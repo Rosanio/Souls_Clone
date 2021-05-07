@@ -14,20 +14,20 @@ namespace SoulsLikeTutorial
         [HideInInspector] public Transform target;
 
         DamageCollider damageCollider;
-        ParticleSystem particleSystem;
+        ParticleSystem projectileTrail;
 
         private void Start()
         {
             damageCollider = GetComponent<DamageCollider>();
-            particleSystem = GetComponent<ParticleSystem>();
-            var emission = particleSystem.emission;
+            projectileTrail = GetComponent<ParticleSystem>();
+            var emission = projectileTrail.emission;
             emission.enabled = false;
         }
 
         public void Fire()
         {
             transform.SetParent(null);
-            var emission = particleSystem.emission;
+            var emission = projectileTrail.emission;
             emission.enabled = true;
             Vector3 targetPosition = target.position + new Vector3(0, 1.3f, 0);
             Vector3 fireDirection = Vector3.Normalize(targetPosition - transform.position);

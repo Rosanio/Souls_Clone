@@ -217,6 +217,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""LeftAttack1"",
+                    ""type"": ""Button"",
+                    ""id"": ""aefdb771-1bc4-4ad0-b083-6601e9810f71"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -382,6 +390,17 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""UseItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c0f39ea8-db66-41ca-9f39-aa88f46223b3"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LeftAttack1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -758,6 +777,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_PlayerActions_Walk = m_PlayerActions.FindAction("Walk", throwIfNotFound: true);
         m_PlayerActions_TwoHand = m_PlayerActions.FindAction("TwoHand", throwIfNotFound: true);
         m_PlayerActions_UseItem = m_PlayerActions.FindAction("UseItem", throwIfNotFound: true);
+        m_PlayerActions_LeftAttack1 = m_PlayerActions.FindAction("LeftAttack1", throwIfNotFound: true);
         // Inventory Management
         m_InventoryManagement = asset.FindActionMap("Inventory Management", throwIfNotFound: true);
         m_InventoryManagement_DPadUp = m_InventoryManagement.FindAction("D-Pad Up", throwIfNotFound: true);
@@ -883,6 +903,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerActions_Walk;
     private readonly InputAction m_PlayerActions_TwoHand;
     private readonly InputAction m_PlayerActions_UseItem;
+    private readonly InputAction m_PlayerActions_LeftAttack1;
     public struct PlayerActionsActions
     {
         private @PlayerControls m_Wrapper;
@@ -897,6 +918,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Walk => m_Wrapper.m_PlayerActions_Walk;
         public InputAction @TwoHand => m_Wrapper.m_PlayerActions_TwoHand;
         public InputAction @UseItem => m_Wrapper.m_PlayerActions_UseItem;
+        public InputAction @LeftAttack1 => m_Wrapper.m_PlayerActions_LeftAttack1;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -936,6 +958,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @UseItem.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnUseItem;
                 @UseItem.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnUseItem;
                 @UseItem.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnUseItem;
+                @LeftAttack1.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnLeftAttack1;
+                @LeftAttack1.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnLeftAttack1;
+                @LeftAttack1.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnLeftAttack1;
             }
             m_Wrapper.m_PlayerActionsActionsCallbackInterface = instance;
             if (instance != null)
@@ -970,6 +995,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @UseItem.started += instance.OnUseItem;
                 @UseItem.performed += instance.OnUseItem;
                 @UseItem.canceled += instance.OnUseItem;
+                @LeftAttack1.started += instance.OnLeftAttack1;
+                @LeftAttack1.performed += instance.OnLeftAttack1;
+                @LeftAttack1.canceled += instance.OnLeftAttack1;
             }
         }
     }
@@ -1146,6 +1174,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnWalk(InputAction.CallbackContext context);
         void OnTwoHand(InputAction.CallbackContext context);
         void OnUseItem(InputAction.CallbackContext context);
+        void OnLeftAttack1(InputAction.CallbackContext context);
     }
     public interface IInventoryManagementActions
     {

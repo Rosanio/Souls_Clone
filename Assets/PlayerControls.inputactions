@@ -204,6 +204,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "LeftAttack1",
+                    "type": "Button",
+                    "id": "aefdb771-1bc4-4ad0-b083-6601e9810f71",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -369,6 +377,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "UseItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c0f39ea8-db66-41ca-9f39-aa88f46223b3",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftAttack1",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

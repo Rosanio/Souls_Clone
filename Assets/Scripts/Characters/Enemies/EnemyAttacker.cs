@@ -34,7 +34,7 @@ namespace SoulsLikeTutorial
         public void Attack()
         {
             animatorHandler.StopMovement();
-            animatorHandler.PlayTargetAnimation(currentAttack.actionAnimation, true);
+            animatorHandler.PlayTargetAnimation(currentAttack.actionAnimation, true, true);
             enemyManager.isPerformingAction = true;
             enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
             lastAttack = currentAttack;

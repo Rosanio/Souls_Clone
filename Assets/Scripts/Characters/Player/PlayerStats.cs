@@ -4,14 +4,7 @@ namespace SoulsLikeTutorial
 {
     public class PlayerStats : CharacterStats
     {
-        public StaminaBar staminaBar;
-
         PlayerManager playerManager;
-
-        public float staminaRegenerationAmount = 1;
-        public float staminaRegenDelay = 0.5f;
-
-        private float staminaRegenTimer = 0;
 
         protected override void Start()
         {
@@ -34,14 +27,6 @@ namespace SoulsLikeTutorial
             maxStamina = staminaLevel * 10;
         }
 
-        public void TakeStaminaDamage(int damage)
-        {
-            currentStamina -= damage;
-
-            staminaBar.SetValue(currentStamina);
-            staminaRegenTimer = 0;
-        }
-
         public override void HandleStatRegeneration()
         {
             base.HandleStatRegeneration();
@@ -49,12 +34,15 @@ namespace SoulsLikeTutorial
                 RegenerateStamina();
         }
 
-        public void RegenerateStamina()
+        private void RegenerateStamina()
         {
             staminaRegenTimer += Time.deltaTime;
             if (currentStamina < maxStamina && staminaRegenTimer > staminaRegenDelay)
             {
-                currentStamina += staminaRegenerationAmount * Time.deltaTime;
+                float regenAmount = staminaRegenerationAmount;
+                if (playerManager.isBlocking)
+                    regenAmount /= 5;
+                currentStamina += regenAmount * Time.deltaTime;
                 staminaBar.SetValue(Mathf.RoundToInt(currentStamina));
             }
         }

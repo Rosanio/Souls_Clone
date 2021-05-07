@@ -8,6 +8,7 @@ namespace SoulsLikeTutorial
         protected WeaponSlotManager weaponSlotManager;
 
         public StatMeter healthBar;
+        public StaminaBar staminaBar;
 
         public int healthLevel = 10;
         public int maxHealth;
@@ -16,6 +17,9 @@ namespace SoulsLikeTutorial
         public int staminaLevel = 10;
         public float maxStamina;
         public float currentStamina;
+        public float staminaRegenerationAmount = 1;
+        public float staminaRegenDelay = 0.5f;
+        protected float staminaRegenTimer = 0;
 
         public int poise;
         public float currentPoiseBuildUp;
@@ -57,6 +61,16 @@ namespace SoulsLikeTutorial
                 animatorHandler.PlayTargetAnimation("Damage Light", true);
                 isStaggered = true;
             }
+        }
+
+        public void TakeStaminaDamage(int damage)
+        {
+            currentStamina -= damage;
+
+            if (staminaBar != null)
+                staminaBar.SetValue(currentStamina);
+
+            staminaRegenTimer = 0;
         }
 
         public virtual void HandleStatRegeneration()

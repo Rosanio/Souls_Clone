@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bec957cd96ae5d64da93f13c3bed6760, type: 3}
+  m_Name: Shield
+  m_EditorClassIdentifier: 
+  modelPrefab: {fileID: 8730957367450883978, guid: fc5d0765d4a68d644b43867b5d696b82,
+    type: 3}
+  icon: {fileID: 21300000, guid: 0803d3ef3c21fde45b37bfd14b7dba37, type: 3}
+  itemName: Shield
+  isUnarmed: 0
+  Right_Hand_Idle: 
+  Left_Hand_Idle: 
+  Two_Hand_Idle: 
+  OH_Light_Attack_1: {fileID: 0}
+  OH_Light_Attack_2: {fileID: 0}
+  OH_Heavy_Attack_1: {fileID: 0}
+  OH_Heavy_Attack_2: {fileID: 0}
+  TH_Light_Attack_1: {fileID: 0}
+  TH_Light_Attack_2: {fileID: 0}
+  TH_Heavy_Attack_1: {fileID: 0}
+  TH_Heavy_Attack_2: {fileID: 0}
+  baseDamage: 0
+  basePoiseDamage: 0
+  physicalDamageAbsorbtion: 100
+  baseStamina: 0
+  lightAttackMultiplier: 0
+  heavyAttackMultiplier: 0

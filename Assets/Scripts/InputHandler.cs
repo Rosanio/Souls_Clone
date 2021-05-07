@@ -17,6 +17,7 @@ namespace SoulsLikeTutorial
         public bool twoHand_Input;
         public bool rhLightAttack_Input;
         public bool rhStrongAttack_Input;
+        public bool lhLightAttack_Input;
         public bool d_Pad_Up;
         public bool d_Pad_Down;
         public bool switchLeftWeapon_Input;
@@ -143,6 +144,7 @@ namespace SoulsLikeTutorial
             rollFlag = false;
             rhLightAttack_Input = false;
             rhStrongAttack_Input = false;
+            lhLightAttack_Input = false;
             d_Pad_Up = false;
             d_Pad_Down = false;
             switchLeftWeapon_Input = false;
@@ -223,6 +225,18 @@ namespace SoulsLikeTutorial
                     else
                         playerAttacker.HandleLightAttack(playerInventory.rightWeapon);
                 }
+            }
+
+            lhLightAttack_Input = inputActions.PlayerActions.LeftAttack1.phase == UnityEngine.InputSystem.InputActionPhase.Started;
+            if (lhLightAttack_Input)
+            {
+                WeaponItem blockingWeapon = twoHandFlag ? playerInventory.rightWeapon : playerInventory.leftWeapon;
+                playerAttacker.HandleBlock(blockingWeapon);
+            }
+            else
+            {
+                playerManager.isBlocking = false;
+                playerAttacker.DisableBlockingCollider();
             }
         }
 
