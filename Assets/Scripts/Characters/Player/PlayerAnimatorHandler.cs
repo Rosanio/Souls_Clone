@@ -10,7 +10,6 @@ namespace SoulsLikeTutorial
         PlayerLocomotion playerLocomotion;
         int vertical;
         int horizontal;
-        public bool canRotate;
 
         public void Initialize()
         {
@@ -89,12 +88,12 @@ namespace SoulsLikeTutorial
 
         public void CanRotate()
         {
-            canRotate = true;
+            playerLocomotion.canRotate = true;
         }
 
         public void StopRotation()
         {
-            canRotate = false;
+            playerLocomotion.canRotate = false;
         }
 
         public override void EnableCombo()

@@ -42,12 +42,17 @@ namespace SoulsLikeTutorial
         {
             base.Update();
             float delta = Time.deltaTime;
+
             canDoCombo = animatorHandler.anim.GetBool("canDoCombo");
-            animatorHandler.anim.SetBool("isInAir", isInAir);
-            animatorHandler.anim.SetBool("isBlocking", isBlocking);
             isUsingRightHand = animatorHandler.anim.GetBool("isUsingRightHand");
             isUsingLeftHand = animatorHandler.anim.GetBool("isUsingLeftHand");
             isInvulnerable = animatorHandler.anim.GetBool("isInvulnerable");
+            if (!isInteracting)
+                playerLocomotion.canRotate = animatorHandler.anim.GetBool("canRotate");
+
+            animatorHandler.anim.SetBool("isInAir", isInAir);
+            animatorHandler.anim.SetBool("isBlocking", isBlocking);
+
             inputHandler.TickInput(delta);
 
             playerLocomotion.HandleRollingAndSprinting(delta);

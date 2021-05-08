@@ -31,6 +31,7 @@ MonoBehaviour:
   baseDamage: 0
   basePoiseDamage: 0
   physicalDamageAbsorbtion: 100
+  stability: 50
   baseStamina: 0
   lightAttackMultiplier: 0
   heavyAttackMultiplier: 0

@@ -12,10 +12,9 @@ namespace SoulsLikeTutorial
         InputHandler inputHandler;
         public Vector3 moveDirection;
 
-        [HideInInspector]
-        public Transform myTransform;
-        [HideInInspector]
-        public PlayerAnimatorHandler animatorHandler;
+        [HideInInspector] public Transform myTransform;
+        [HideInInspector] public PlayerAnimatorHandler animatorHandler;
+        [HideInInspector] public bool canRotate;
 
         public new Rigidbody rigidbody;
         public GameObject normalCamera;
@@ -142,7 +141,7 @@ namespace SoulsLikeTutorial
                 }
             }
 
-            if (animatorHandler.canRotate)
+            if (canRotate)
             {
                 HandleRotation(delta);
             }
