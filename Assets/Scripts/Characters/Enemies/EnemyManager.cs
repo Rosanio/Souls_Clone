@@ -17,10 +17,15 @@ namespace SoulsLikeTutorial
         [HideInInspector]
         public float currentRecoveryTime = 0;
 
+        private EnemyLocomotionManager locomotionManager;
+        private State startingState;
+
         private void Awake()
         {
             navMeshAgent = GetComponentInChildren<NavMeshAgent>();
             enemyRigidbody = GetComponent<Rigidbody>();
+            locomotionManager = GetComponent<EnemyLocomotionManager>();
+            startingState = currentState;
         }
 
         protected override void Update()
@@ -69,6 +74,15 @@ namespace SoulsLikeTutorial
             // Layer 13 is DeadCharacter
             gameObject.layer = 13;
             characterCollisionBlockerCollider.gameObject.layer = 13;
+        }
+
+        public void Respawn()
+        {
+            stats.ResetStats();
+            locomotionManager.canRotate = true;
+            currentTarget = null;
+            animatorHandler.PlayTargetAnimation("Empty", false, true);
+            currentState = startingState;
         }
 
         private void SwitchToNextState(State nextState)

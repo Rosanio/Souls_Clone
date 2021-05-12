@@ -2,7 +2,7 @@
 
 namespace SoulsLikeTutorial
 {
-    public class CharacterStats : MonoBehaviour
+    public abstract class CharacterStats : MonoBehaviour
     {
         protected AnimatorHandler animatorHandler;
         protected WeaponSlotManager weaponSlotManager;
@@ -54,6 +54,7 @@ namespace SoulsLikeTutorial
             {
                 animatorHandler.PlayTargetAnimation("Death 01", true);
                 isDead = true;
+                HandleDeath();
             }
             else if(currentPoiseBuildUp > poise)
             {
@@ -65,12 +66,19 @@ namespace SoulsLikeTutorial
 
         public void TakeStaminaDamage(int damage)
         {
-            currentStamina -= damage;
-
-            if (staminaBar != null)
-                staminaBar.SetValue(currentStamina);
-
+            UpdateStamina(-damage);
             staminaRegenTimer = 0;
+        }
+
+        protected void UpdateStamina(float staminaDelta)
+        {
+            currentStamina += staminaDelta;
+            if (currentStamina < 0)
+                currentStamina = 0;
+            if (currentStamina > maxStamina)
+                currentStamina = maxStamina;
+            if (staminaBar)
+                staminaBar.SetValue(currentStamina);
         }
 
         public virtual void HandleStatRegeneration()
@@ -105,7 +113,7 @@ namespace SoulsLikeTutorial
             maxHealth = healthLevel * 10;
         }
 
-        private void UpdateHealth(float healthDelta)
+        protected void UpdateHealth(float healthDelta)
         {
             currentHealth += healthDelta;
             if (currentHealth > maxHealth)
@@ -115,5 +123,18 @@ namespace SoulsLikeTutorial
             if (healthBar)
                 healthBar.SetValue(currentHealth);
         }
+
+        public virtual void ResetStats()
+        {
+            isDead = false;
+            isStaggered = false;
+            UpdateHealth(maxHealth);
+            UpdateStamina(maxStamina);
+            currentStamina = maxStamina;
+            currentPoiseBuildUp = 0;
+            weaponSlotManager.CloseDamageCollider();
+        }
+
+        protected abstract void HandleDeath();
     }
 }

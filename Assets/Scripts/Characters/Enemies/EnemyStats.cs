@@ -16,14 +16,16 @@ namespace SoulsLikeTutorial
         {
             base.TakeDamage(damage, poiseDamage);
 
-            if (isDead)
-            {
-                enemyManager.HandleDeath();
-                ((EnemyWeaponSlotManager)weaponSlotManager).DespawnPorjectile();
-            } else if (isStaggered)
+            if (isStaggered)
             {
                 ((EnemyWeaponSlotManager)weaponSlotManager).DespawnPorjectile();
             }
+        }
+
+        protected override void HandleDeath()
+        {
+            enemyManager.HandleDeath();
+            ((EnemyWeaponSlotManager)weaponSlotManager).DespawnPorjectile();
         }
     }
 }

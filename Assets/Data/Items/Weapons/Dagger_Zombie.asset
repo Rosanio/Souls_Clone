@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bec957cd96ae5d64da93f13c3bed6760, type: 3}
   m_Name: Dagger_Zombie
   m_EditorClassIdentifier: 
-  itemIcon: {fileID: 0}
-  itemName: Dagger
   modelPrefab: {fileID: 568920051310294693, guid: cdbd011ef54314444a680a1f485c60c4,
     type: 3}
+  icon: {fileID: 0}
+  itemName: Dagger
   isUnarmed: 0
   Right_Hand_Idle: 
   Left_Hand_Idle: 
@@ -28,8 +28,10 @@ MonoBehaviour:
   TH_Light_Attack_2: {fileID: 0}
   TH_Heavy_Attack_1: {fileID: 0}
   TH_Heavy_Attack_2: {fileID: 0}
-  baseDamage: 5
-  basePoiseDamage: 5
+  baseDamage: 50
+  basePoiseDamage: 30
+  physicalDamageAbsorbtion: 0
+  stability: 0
   baseStamina: 0
   lightAttackMultiplier: 0
   heavyAttackMultiplier: 0

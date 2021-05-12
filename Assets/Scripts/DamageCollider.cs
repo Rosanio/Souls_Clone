@@ -28,7 +28,6 @@ namespace SoulsLikeTutorial
 
         private void OnTriggerEnter(Collider collision)
         {
-            print(collision.gameObject.name);
             int attackDamage;
             int poiseDamage;
             float hitAngle;
@@ -38,8 +37,6 @@ namespace SoulsLikeTutorial
             if (character == null) return;
 
             Attacker attacker = GetComponentInParent<Attacker>();
-            BlockingCollider shield = collision.transform.GetComponentInChildren<BlockingCollider>();
-
             Team teamID;
 
             // If the attacker cannot be found, this is a projectile

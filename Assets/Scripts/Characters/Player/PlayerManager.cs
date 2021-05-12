@@ -7,6 +7,8 @@ namespace SoulsLikeTutorial
 { 
     public class PlayerManager : CharacterManager
     {
+        public GameManager gameManager;
+
         InputHandler inputHandler;
         CameraHandler cameraHandler;
         PlayerLocomotion playerLocomotion;
@@ -47,8 +49,7 @@ namespace SoulsLikeTutorial
             isUsingRightHand = animatorHandler.anim.GetBool("isUsingRightHand");
             isUsingLeftHand = animatorHandler.anim.GetBool("isUsingLeftHand");
             isInvulnerable = animatorHandler.anim.GetBool("isInvulnerable");
-            if (!isInteracting)
-                playerLocomotion.canRotate = animatorHandler.anim.GetBool("canRotate");
+            playerLocomotion.canRotate = animatorHandler.anim.GetBool("canRotate");
 
             animatorHandler.anim.SetBool("isInAir", isInAir);
             animatorHandler.anim.SetBool("isBlocking", isBlocking);
@@ -138,6 +139,13 @@ namespace SoulsLikeTutorial
             Destroy(activeInteractable.gameObject);
             RemoveInteractable(activeInteractable);
             uiManager.OnItemPickUp(item);
+        }
+
+        public void RespawnPlayer()
+        {
+            animatorHandler.PlayTargetAnimation("Get Up", true);
+            gameManager.ResetPlayerAndEnemies();
+            cameraHandler.SnapToTarget();
         }
     }
 }

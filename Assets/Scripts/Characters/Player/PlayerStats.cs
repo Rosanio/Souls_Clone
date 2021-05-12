@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+
+using UnityEngine;
 
 namespace SoulsLikeTutorial
 {
@@ -22,6 +24,11 @@ namespace SoulsLikeTutorial
             base.TakeDamage(damage, poiseDamage);
         }
 
+        protected override void HandleDeath()
+        {
+            StartCoroutine(RespawnPlayer());
+        }
+
         private void SetMaxStaminaFromStaminaLevel()
         {
             maxStamina = staminaLevel * 10;
@@ -42,9 +49,15 @@ namespace SoulsLikeTutorial
                 float regenAmount = staminaRegenerationAmount;
                 if (playerManager.isBlocking)
                     regenAmount /= 5;
-                currentStamina += regenAmount * Time.deltaTime;
-                staminaBar.SetValue(Mathf.RoundToInt(currentStamina));
+                UpdateStamina(regenAmount * Time.deltaTime);
             }
+        }
+
+        private IEnumerator RespawnPlayer()
+        {
+            yield return new WaitForSeconds(6);
+            ResetStats();
+            playerManager.RespawnPlayer();
         }
     }
 }

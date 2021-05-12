@@ -61,6 +61,7 @@ namespace SoulsLikeTutorial
         private void Start()
         {
             environmentLayer = LayerMask.NameToLayer("Environment");
+            SnapToTarget();
         }
 
         public void FollowTarget(float delta)
@@ -155,12 +156,18 @@ namespace SoulsLikeTutorial
 
         }
 
+        public void SnapToTarget()
+        {
+            myTransform.position = targetTransform.position;
+            lookAngle = 0;
+        }
+
         public void UpdateLockOnState()
         {
             if (!inputHandler.lockOnFlag) return;
 
             if (Vector3.Distance(targetTransform.position, currentLockOnTarget.lockOnTransform.position) > maximumLockOnDistance ||
-                    currentLockOnTarget.stats.isDead)
+                    currentLockOnTarget.IsDead())
             {
                 ClearLockOnTargets();
                 if(!LockOnToNearestTarget())
@@ -251,7 +258,7 @@ namespace SoulsLikeTutorial
             {
                 CharacterManager character = collider.GetComponent<CharacterManager>();
 
-                if (character != null && !character.stats.isDead)
+                if (character != null && !character.IsDead())
                 {
                     Vector3 lockTargetDirection = character.transform.position - targetTransform.position;
                     float distanceFromTarget = Vector3.Distance(targetTransform.position, character.transform.position);

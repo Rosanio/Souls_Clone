@@ -16,7 +16,7 @@ namespace SoulsLikeTutorial
         public bool isInteracting;
         public bool isBlocking;
 
-        public CharacterStats stats;
+        protected CharacterStats stats;
         protected AnimatorHandler animatorHandler;
 
         protected virtual void Start()
@@ -48,6 +48,11 @@ namespace SoulsLikeTutorial
                 animatorHandler.PlayTargetAnimation("Block Impact", true);
             }
             stats.TakeDamage(damage, poiseDamage);
+        }
+
+        public bool IsDead()
+        {
+            return stats.isDead;
         }
     }
 }

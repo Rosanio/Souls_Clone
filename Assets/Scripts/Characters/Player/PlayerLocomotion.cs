@@ -14,7 +14,7 @@ namespace SoulsLikeTutorial
 
         [HideInInspector] public Transform myTransform;
         [HideInInspector] public PlayerAnimatorHandler animatorHandler;
-        [HideInInspector] public bool canRotate;
+        public bool canRotate;
 
         public new Rigidbody rigidbody;
         public GameObject normalCamera;
