@@ -1,18 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace SoulsLikeTutorial
 {
-    public class ItemPickup : Interactable
+    public class Checkpoint : Interactable
     {
-        public Item item;
+        public Transform respawnPosition;
 
         public override void Interact(PlayerManager playerManager)
         {
-            playerManager.PickUpItem(item);
-            Destroy(gameObject);
+            playerManager.Rest(respawnPosition);
         }
     }
 }
+

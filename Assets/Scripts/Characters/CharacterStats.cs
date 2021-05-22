@@ -70,6 +70,13 @@ namespace SoulsLikeTutorial
             staminaRegenTimer = 0;
         }
 
+        public void FullHeal()
+        {
+            UpdateHealth(maxHealth);
+            UpdateStamina(maxStamina);
+            currentPoiseBuildUp = 0;
+        }
+
         protected void UpdateStamina(float staminaDelta)
         {
             currentStamina += staminaDelta;

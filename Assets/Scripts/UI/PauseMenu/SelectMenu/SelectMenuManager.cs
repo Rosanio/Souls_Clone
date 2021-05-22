@@ -35,7 +35,8 @@
 
         public override void ResetToDefault()
         {
-            selectMenuPanel.ResetToDefault();
+            if (selectMenuPanel != null)
+                selectMenuPanel.ResetToDefault();
         }
 
         public void SetSelectedButton(SelectMenuButton menuButton)

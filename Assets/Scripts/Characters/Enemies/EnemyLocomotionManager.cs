@@ -105,5 +105,12 @@ namespace SoulsLikeTutorial
                 navMeshAgent.transform.localRotation = Quaternion.identity;
             }
         }
+
+        public void ResetMovementState()
+        {
+            enemyAnimatorManager.anim.SetFloat("Vertical", 0);
+            navMeshAgent.enabled = false;
+            canRotate = true;
+        }
     }
 }

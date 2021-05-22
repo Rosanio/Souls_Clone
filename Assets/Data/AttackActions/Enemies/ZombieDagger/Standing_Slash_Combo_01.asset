@@ -19,6 +19,6 @@ MonoBehaviour:
   minimumAttackAngle: -35
   minimumDistanceNeededToAttack: 0
   maximumDistanceNeededToAttack: 2
-  damage: 50
+  damage: 15
   poiseDamage: 5
   projectile: {fileID: 0}

@@ -9,6 +9,7 @@ namespace SoulsLikeTutorial
         public SelectMenuManager selectMenuManager;
         public EquipmentMenuManager equipmentMenuManager;
         public InventoryMenuManager inventoryMenuManager;
+        public CheckpointMenuManager checkpointMenuManager;
 
         InteractableUI interactableUI;
 
@@ -20,8 +21,11 @@ namespace SoulsLikeTutorial
         public GameObject confirmUIGameObject;
 
         [HideInInspector] public bool isPaused = false;
+        [HideInInspector] public bool isResting = false;
 
         MenuManager currentMenuManager;
+
+        PlayerAnimatorHandler animatorHandler;
 
         private void Awake()
         {
@@ -33,13 +37,16 @@ namespace SoulsLikeTutorial
             inventoryMenuManager.gameObject.SetActive(true);
             inventoryMenuManager.gameObject.SetActive(false);
 
+            animatorHandler = FindObjectOfType<PlayerAnimatorHandler>();
         }
 
         #region Menu Toggling
 
         public void TogglePauseMenu()
         {
-            if (isPaused)
+            if (isResting)
+                ExitCheckpointMenu();
+            else if (isPaused)
                 ExitPauseMenu();
             else
                 OpenPauseMenu();
@@ -47,8 +54,7 @@ namespace SoulsLikeTutorial
 
         public void OpenPauseMenu()
         {
-            isPaused = true;
-            Cursor.lockState = CursorLockMode.None;
+            Pause();
             hudWindow.SetActive(false);
             OpenSelectWindow();
         }
@@ -67,6 +73,21 @@ namespace SoulsLikeTutorial
         {
             inventoryMenuManager.selectedEquipmentSlotID = selectedEquipmentSlotID;
             OpenMenu(inventoryMenuManager);
+        }
+
+        public void OpenCheckpointWindow()
+        {
+            Pause();
+            isResting = true;
+            OpenMenu(checkpointMenuManager);
+        }
+
+        public void ExitCheckpointMenu()
+        {
+            ExitPauseMenu();
+            EnableInteractableUI();
+            animatorHandler.PlayTargetAnimation("Kneeling Up", true);
+            isResting = false;
         }
 
         public void ExitPauseMenu()
@@ -91,6 +112,7 @@ namespace SoulsLikeTutorial
             selectMenuManager.ResetToDefault();
             equipmentMenuManager.ResetToDefault();
             inventoryMenuManager.ResetToDefault();
+            checkpointMenuManager.ResetToDefault();
         }
 
         private void CloseAllMenus()
@@ -98,6 +120,7 @@ namespace SoulsLikeTutorial
             selectMenuManager.Close();
             equipmentMenuManager.Close();
             inventoryMenuManager.Close();
+            checkpointMenuManager.Close();
         }
 
         #endregion
@@ -186,6 +209,11 @@ namespace SoulsLikeTutorial
             interactableUI.interactableText.text = interactable.interactableText;
         }
 
+        public void EnableInteractableUI()
+        {
+            interactableUIGameObject.SetActive(true);
+        }
+
         public void DisableInteractableUI()
         {
             interactableUIGameObject.SetActive(false);
@@ -200,6 +228,12 @@ namespace SoulsLikeTutorial
         public bool AwaitingConfirmation()
         {
             return confirmUIGameObject.activeSelf;
+        }
+
+        private void Pause()
+        {
+            isPaused = true;
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 }

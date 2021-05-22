@@ -125,20 +125,27 @@ namespace SoulsLikeTutorial
             }
             else if (activeInteractable != null)
             {
-                PickUpActiveItem();
+                activeInteractable.Interact(this);
             }
         }
 
-        private void PickUpActiveItem()
+        public void PickUpItem(Item item)
         {
-            Item item = ((ItemPickup)activeInteractable).item;
             if (item == null)
                 throw new Exception("Item pickup does not have an item assigned to it");
             animatorHandler.PlayTargetAnimation("Pick Up", true);
             playerInventory.PickUpItem(item);
-            Destroy(activeInteractable.gameObject);
             RemoveInteractable(activeInteractable);
             uiManager.OnItemPickUp(item);
+        }
+
+        public void Rest(Transform respawnPosition)
+        {
+            animatorHandler.PlayTargetAnimation("Kneeling Down", true);
+            stats.FullHeal();
+            gameManager.OnCheckpointEnter(respawnPosition);
+            uiManager.DisableInteractableUI();
+            uiManager.OpenCheckpointWindow();
         }
 
         public void RespawnPlayer()

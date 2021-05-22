@@ -21,12 +21,24 @@ namespace SoulsLikeTutorial
             lastCheckpoint.rotation = player.transform.rotation;
         }
 
+        public void OnCheckpointEnter(Transform respawnPosition)
+        {
+            ResetEnemies();
+            lastCheckpoint.position = respawnPosition.position;
+            lastCheckpoint.rotation = respawnPosition.rotation;
+        }
+
         public void ResetPlayerAndEnemies()
         {
             player.transform.position = lastCheckpoint.position;
             player.transform.rotation = lastCheckpoint.rotation;
 
-            foreach(EnemySpawnPoint enemySpawnPoint in enemySpawnPoints)
+            ResetEnemies();
+        }
+
+        public void ResetEnemies()
+        {
+            foreach (EnemySpawnPoint enemySpawnPoint in enemySpawnPoints)
             {
                 enemySpawnPoint.RespawnEnemy();
             }

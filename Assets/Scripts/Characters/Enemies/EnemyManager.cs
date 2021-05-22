@@ -71,18 +71,17 @@ namespace SoulsLikeTutorial
 
         public void HandleDeath()
         {
-            // Layer 13 is DeadCharacter
-            gameObject.layer = 13;
-            characterCollisionBlockerCollider.gameObject.layer = 13;
+            SetCollisionLayer(true);
         }
 
         public void Respawn()
         {
             stats.ResetStats();
-            locomotionManager.canRotate = true;
+            locomotionManager.ResetMovementState();
             currentTarget = null;
             animatorHandler.PlayTargetAnimation("Empty", false, true);
             currentState = startingState;
+            SetCollisionLayer(false);
         }
 
         private void SwitchToNextState(State nextState)
@@ -104,6 +103,14 @@ namespace SoulsLikeTutorial
                     isPerformingAction = false;
                 }
             }
+        }
+
+        private void SetCollisionLayer(bool isDead)
+        {
+            int characterLayer = isDead ? 13 : 9;
+            int characterCollisionBlockerLayer = isDead ? 13 : 11;
+            gameObject.layer = characterLayer;
+            characterCollisionBlockerCollider.gameObject.layer = characterCollisionBlockerLayer;
         }
     }
 }
