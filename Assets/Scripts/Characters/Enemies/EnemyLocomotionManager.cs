@@ -13,6 +13,8 @@ namespace SoulsLikeTutorial
         public Rigidbody enemyRigidbody;
 
         public LayerMask detectionLayer;
+        public LayerMask environmentLayer;
+        public LayerMask collisionBlockerLayer;
 
         [Header("A.I. Settings")]
         public float detectionRadius = 20;
@@ -34,6 +36,8 @@ namespace SoulsLikeTutorial
         {
             navMeshAgent.enabled = false;
             enemyRigidbody.isKinematic = false;
+            environmentLayer = LayerMask.NameToLayer("Environment");
+            collisionBlockerLayer = LayerMask.NameToLayer("Character Collision Blocker");
         }
 
         public void HandleDetection()
@@ -54,7 +58,11 @@ namespace SoulsLikeTutorial
 
                     if (viewableAngle > minimumDetectionAngle && viewableAngle < maximumDetectionAngle)
                     {
-                        enemyManager.currentTarget = character;
+                        RaycastHit hit;
+                        if (!Physics.Linecast(enemyManager.transform.position, character.lockOnTransform.position, out hit, (1<<12)))
+                        {
+                            enemyManager.currentTarget = character;
+                        }
                     }
                 }
             }

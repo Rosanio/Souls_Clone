@@ -195,7 +195,7 @@ namespace SoulsLikeTutorial
 
             targetPosition = myTransform.position;
 
-            Debug.DrawRay(origin, -Vector3.up * 20, Color.red, 0.1f, false);
+            Debug.DrawRay(origin, -Vector3.up, Color.red, 0.1f, false);
             if (Physics.Raycast(origin, -Vector3.up, out hit, minimumDistanceNeededToBeginFall, ignoreForGroundCheck))
             {
                 normalVector = hit.normal;
